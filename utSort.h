@@ -10,23 +10,10 @@ TEST (Sort, sortByIncreasingPerimeter) {
     
     Circle c1(0.0, 0.0, 1.0, "c1");
     Circle c2(0.0, 0.0, 2.0, "c2");
-
-    vertex t1_1,t1_2,t1_3;
-    t1_1.x = 0.0;
-    t1_1.y = 0.0;
-    t1_2.x = 1.0;
-    t1_2.y = 0.0;
-    t1_3.x = 0.0;
-    t1_3.y = 1.0;
-    Triangle t1( t1_1, t1_2, t1_3, "t1");
     
-    vertex t2_1,t2_2,t2_3;
-    t2_1.x = 0.0;
-    t2_1.y = 0.0;
-    t2_2.x = 2.0;
-    t2_2.y = 0.0;
-    t2_3.x = 0.0;
-    t2_3.y = 2.0;
+    vertex t1_1 = {0.0, 0.0}, t1_2 = { 1.0, 0.0 }, t1_3 = { 0.0, 1.0 };
+    Triangle t1( t1_1, t1_2, t1_3, "t1");
+    vertex t2_1 = {0.0, 0.0}, t2_2= { 2.0, 0.0 }, t2_3= { 0.0, 2.0 };
     Triangle t2( t2_1, t2_2, t2_3, "t2");
 
     std::list<Shape *> Shapes;
@@ -60,22 +47,9 @@ TEST (Sort, sortByDecreasingPerimeter) {
     Circle c1(0.0, 0.0, 1.0, "c1");
     Circle c2(0.0, 0.0, 2.0, "c2");
 
-    vertex t1_1,t1_2,t1_3;
-    t1_1.x = 0.0;
-    t1_1.y = 0.0;
-    t1_2.x = 1.0;
-    t1_2.y = 0.0;
-    t1_3.x = 0.0;
-    t1_3.y = 1.0;
+    vertex t1_1 = {0.0, 0.0}, t1_2 = { 1.0, 0.0 }, t1_3 = { 0.0, 1.0 };
     Triangle t1( t1_1, t1_2, t1_3, "t1");
-    
-    vertex t2_1,t2_2,t2_3;
-    t2_1.x = 0.0;
-    t2_1.y = 0.0;
-    t2_2.x = 2.0;
-    t2_2.y = 0.0;
-    t2_3.x = 0.0;
-    t2_3.y = 2.0;
+    vertex t2_1 = {0.0, 0.0}, t2_2= { 2.0, 0.0 }, t2_3= { 0.0, 2.0 };
     Triangle t2( t2_1, t2_2, t2_3, "t2");
 
     std::list<Shape *> Shapes;
@@ -88,7 +62,7 @@ TEST (Sort, sortByDecreasingPerimeter) {
 
     Sort::sortByDecreasingPerimeter( &Shapes );
 
-    ASSERT_EQ(&c2, Shapes.front());  // compare the address
+    /*ASSERT_EQ(&c2, Shapes.front());  // compare the address
     Shapes.pop_front();
     ASSERT_EQ(&r2, Shapes.front());
     Shapes.pop_front();
@@ -100,6 +74,17 @@ TEST (Sort, sortByDecreasingPerimeter) {
     Shapes.pop_front();
     ASSERT_EQ(&t1, Shapes.front());
     Shapes.pop_front();
+    */
+
+    std::list<Shape *> ansShapes;
+    ansShapes.push_back (&c2);
+    ansShapes.push_back (&r2);
+    ansShapes.push_back (&t2);
+    ansShapes.push_back (&c1);
+    ansShapes.push_back (&r1);
+    ansShapes.push_back (&t1);
+
+    ASSERT_EQ(ansShapes, Shapes);
 }
 
 TEST (Sort, sortByIncreasingArea) {
@@ -109,22 +94,9 @@ TEST (Sort, sortByIncreasingArea) {
     Circle c1(0.0, 0.0, 1.0, "c1");
     Circle c2(0.0, 0.0, 2.0, "c2");
 
-    vertex t1_1,t1_2,t1_3;
-    t1_1.x = 0.0;
-    t1_1.y = 0.0;
-    t1_2.x = 1.0;
-    t1_2.y = 0.0;
-    t1_3.x = 0.0;
-    t1_3.y = 1.0;
+    vertex t1_1 = {0.0, 0.0}, t1_2 = { 1.0, 0.0 }, t1_3 = { 0.0, 1.0 };
     Triangle t1( t1_1, t1_2, t1_3, "t1");
-    
-    vertex t2_1,t2_2,t2_3;
-    t2_1.x = 0.0;
-    t2_1.y = 0.0;
-    t2_2.x = 2.0;
-    t2_2.y = 0.0;
-    t2_3.x = 0.0;
-    t2_3.y = 2.0;
+    vertex t2_1 = {0.0, 0.0}, t2_2= { 2.0, 0.0 }, t2_3= { 0.0, 2.0 };
     Triangle t2( t2_1, t2_2, t2_3, "t2");
 
     std::list<Shape *> Shapes;
@@ -137,21 +109,27 @@ TEST (Sort, sortByIncreasingArea) {
 
     Sort::sortByIncreasingArea( &Shapes );
 
-    ASSERT_EQ(t1, *Shapes->front());  // compare the address
+    Shape *cmpShape;
+    cmpShape = Shapes.front();
+    ASSERT_EQ( t1.area(), cmpShape->area());  // compare the value
     Shapes.pop_front();
-    /*ASSERT_EQ(t2, Shapes.front());
+    cmpShape = Shapes.front();
+    ASSERT_EQ( t2.area(), cmpShape->area());
     Shapes.pop_front();
-    ASSERT_EQ(r1, Shapes.front());
+    cmpShape = Shapes.front();
+    ASSERT_EQ( r1.area(), cmpShape->area());
     Shapes.pop_front();
-    ASSERT_EQ(c1, Shapes.front());
+    cmpShape = Shapes.front();
+    ASSERT_EQ( c1.area(), cmpShape->area());
     Shapes.pop_front();
-    ASSERT_EQ(r2, Shapes.front());
+    cmpShape = Shapes.front();
+    ASSERT_EQ( r2.area(), cmpShape->area());
     Shapes.pop_front();
-    ASSERT_EQ(c2, Shapes.front());
-    Shapes.pop_front();*/
-
+    cmpShape = Shapes.front();
+    ASSERT_EQ( c2.area(), cmpShape->area());
+    Shapes.pop_front();
 }
-/*
+
 TEST (Sort, sortByDecreasingArea) {
     Rectangle r1(0.0, 0.0, 1.0, 2.0, "r1");
     Rectangle r2(0.0, 0.0, 2.0, 4.0, "r2");
@@ -159,22 +137,9 @@ TEST (Sort, sortByDecreasingArea) {
     Circle c1(0.0, 0.0, 1.0, "c1");
     Circle c2(0.0, 0.0, 2.0, "c2");
 
-    vertex t1_1,t1_2,t1_3;
-    t1_1.x = 0.0;
-    t1_1.y = 0.0;
-    t1_2.x = 1.0;
-    t1_2.y = 0.0;
-    t1_3.x = 0.0;
-    t1_3.y = 1.0;
+    vertex t1_1 = {0.0, 0.0}, t1_2 = { 1.0, 0.0 }, t1_3 = { 0.0, 1.0 };
     Triangle t1( t1_1, t1_2, t1_3, "t1");
-    
-    vertex t2_1,t2_2,t2_3;
-    t2_1.x = 0.0;
-    t2_1.y = 0.0;
-    t2_2.x = 2.0;
-    t2_2.y = 0.0;
-    t2_3.x = 0.0;
-    t2_3.y = 2.0;
+    vertex t2_1 = {0.0, 0.0}, t2_2= { 2.0, 0.0 }, t2_3= { 0.0, 2.0 };
     Triangle t2( t2_1, t2_2, t2_3, "t2");
 
     std::list<Shape *> Shapes;
@@ -185,11 +150,46 @@ TEST (Sort, sortByDecreasingArea) {
     Shapes.push_back (&t1);
     Shapes.push_back (&t2);
 
-    Sort::sortByDecreasingArea( Shapes );
+    Sort::sortByDecreasingArea( &Shapes );
+
+    Shape *cmpShape;
+    cmpShape = Shapes.front();
+    ASSERT_EQ( c2.area(), cmpShape->area());  // compare the value
+    Shapes.pop_front();
+    cmpShape = Shapes.front();
+    ASSERT_EQ( r2.area(), cmpShape->area());
+    Shapes.pop_front();
+    cmpShape = Shapes.front();
+    ASSERT_EQ( c1.area(), cmpShape->area());
+    Shapes.pop_front();
+    cmpShape = Shapes.front();
+    ASSERT_EQ( r1.area(), cmpShape->area());
+    Shapes.pop_front();
+    cmpShape = Shapes.front();
+    ASSERT_EQ( t2.area(), cmpShape->area());
+    Shapes.pop_front();
+    cmpShape = Shapes.front();
+    ASSERT_EQ( t1.area(), cmpShape->area());
+    Shapes.pop_front();
 }
 
 TEST (Sort, sortByIncreasingCompactness) {
+    Rectangle r1(0.0, 0.0, 1.0, 2.0, "r1");
+    Circle c1(0.0, 0.0, 1.0, "c1");
+    vertex t1_1 = {0.0, 0.0}, t1_2 = { 1.0, 0.0 }, t1_3 = { 0.0, 1.0 };
+    Triangle t1( t1_1, t1_2, t1_3, "t1");
 
-}*/
+    std::list<Shape *> Shapes;
+    Shapes.push_back (&r1);
+    Shapes.push_back (&c1);
+    Shapes.push_back (&t1);
+
+    ASSERT_EQ(&r1, Shapes.front());  // compare the address
+    Shapes.pop_front();
+    ASSERT_EQ(&c1, Shapes.front());
+    Shapes.pop_front();
+    ASSERT_EQ(&t1, Shapes.front());
+    Shapes.pop_front();
+}
 
 #endif
