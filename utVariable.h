@@ -23,4 +23,9 @@ TEST (Variable , haveValue){
   ASSERT_FALSE(X.match(jerry));
 }
 
+TEST (Variable , setValue){
+  Variable X("X");
+  X.setValue("123");
+  ASSERT_EQ("123", X.value());
+}
 #endif

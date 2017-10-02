@@ -40,7 +40,7 @@ mainNumber.o: mainNumber.cpp utNumber.h Number.h
 utNumber: mainNumber.o
 		g++ -o utNumber mainNumber.o -lgtest -lpthread
 
-mainTerm.o: mainTerm.cpp utTerm.h Number.h
+mainTerm.o: mainTerm.cpp utTerm.h Number.h Variable.h
 		g++ -std=c++11 -c mainTerm.cpp
 utTerm: mainTerm.o
 		g++ -o utTerm mainTerm.o -lgtest -lpthread
