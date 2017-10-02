@@ -1,12 +1,14 @@
 #ifndef UTTERM_H
 #define UTTERM_H
+#include "Number.h"
 
 //test Number.value()
 TEST (Number,ctor) {
-
+    Number n1("N1","1");
+    ASSERT_EQ("1", n1.value());
 }
 //test Number.symbol()
-TEST (Number, symbol) {
+/*TEST (Number, symbol) {
 
 }
 //?- 25=25.
@@ -80,5 +82,5 @@ TEST (Var, matchSuccessToAtomThenFailureToNumber2) {
 //true.
 TEST(Var, reAssignTheSameAtom){
 
-}
+}*/
 #endif
