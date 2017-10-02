@@ -45,8 +45,8 @@ TEST (Number, matchSuccessToVar) {
     Number n2("NUM2", "50");
     Variable v1("VAR1");
     EXPECT_TRUE(n1.match(v1));
-    cout<<n1.value()<<"\t"<<v1.value()<<endl;
-    cout<<n2.value()<<"\t"<<v1.value()<<endl;
+    EXPECT_EQ(n1.value(),v1.value());
+
     EXPECT_FALSE(n2.match(v1));
     cout<<n1.value()<<"\t"<<v1.value()<<endl;
     cout<<n2.value()<<"\t"<<v1.value()<<endl;

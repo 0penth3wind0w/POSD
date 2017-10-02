@@ -22,13 +22,8 @@ public:
     _value = s;
   }
   bool assignable(){ return _assignable; };
-  void changeAssignableStatus(){
-    if(_assignable == true) {
-      _assignable = false;
-    }
-    else {
-      _assignable = true;
-    }
+  void setAssignableToFalse(){
+    _assignable = false;
   }
 private:
   string _value;

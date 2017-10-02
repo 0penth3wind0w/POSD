@@ -26,7 +26,7 @@ public:
     bool match(Variable var){
         if(var.assignable()){
             var.setValue(_value);
-            var.changeAssignableStatus();
+            var.setAssignableToFalse();
             if(value()==var.value()){
                 return true;
             }
