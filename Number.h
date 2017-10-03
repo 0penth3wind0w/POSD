@@ -23,7 +23,7 @@ public:
         }
         return false;
     }
-    bool match(Variable var){
+    bool match(Variable &var){
         if(var.assignable()){
             var.setValue(_value);
             var.setAssignableToFalse();
