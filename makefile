@@ -24,23 +24,29 @@ INC_DIR = include
 #Variable.o: Variable.h Variable.cpp
 #	g++ -std=gnu++0x -c Variable.cpp
 
+Atom.o: $(INC_DIR)/atom.h atom.cpp
+		g++ -std=gnu++0x -o Atom.o -c atom.cpp
+Variable.o: $(INC_DIR)/variable.h variable.cpp
+		g++ -std=gnu++0x -o Variable.o -c variable.cpp
+Number.o: $(INC_DIR)/number.h number.cpp
+		g++ -std=gnu++0x -o Number.o -c number.cpp
 
-mainAtom.o: mainAtom.cpp utAtom.h atom.h
+mainAtom.o: mainAtom.cpp utAtom.h
 		g++ -std=c++11 -c mainAtom.cpp
-utAtom: mainAtom.o
-		g++ -o utAtom mainAtom.o -lgtest -lpthread
+utAtom: mainAtom.o Atom.o Variable.o Number.o
+		g++ -o utAtom mainAtom.o Atom.o Variable.o Number.o -lgtest -lpthread
 
-mainVariable.o: mainVariable.cpp utVariable.h Variable.h
+mainVariable.o: mainVariable.cpp utVariable.h $(INC_DIR)/variable.h variable.cpp
 		g++ -std=c++11 -c mainVariable.cpp
 utVariable: mainVariable.o
 		g++ -o utVariable mainVariable.o -lgtest -lpthread
 
-mainNumber.o: mainNumber.cpp utNumber.h Number.h
+mainNumber.o: mainNumber.cpp utNumber.h $(INC_DIR)/number.h number.cpp
 		g++ -std=c++11 -c mainNumber.cpp
 utNumber: mainNumber.o
 		g++ -o utNumber mainNumber.o -lgtest -lpthread
 
-mainTerm.o: mainTerm.cpp utTerm.h Number.h Variable.h
+mainTerm.o: mainTerm.cpp utTerm.h $(INC_DIR)/number.h $(INC_DIR)/variable.h number.cpp
 		g++ -std=c++11 -c mainTerm.cpp
 utTerm: mainTerm.o
 		g++ -o utTerm mainTerm.o -lgtest -lpthread
