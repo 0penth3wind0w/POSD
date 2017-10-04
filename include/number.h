@@ -2,10 +2,11 @@
 #define NUMBER_H
 
 #include <string>
-//#include "variable.h"
+
 using std::string;
 
 class Atom;
+class Variable;
 
 class Number{
 public:
@@ -15,7 +16,7 @@ public:
     void setSymbol(string s);
     bool match(Number num);
     bool match(Atom atom);
-    //bool match(Variable &var);
+    bool match(Variable &var);
     
 private:
     string _symbol;

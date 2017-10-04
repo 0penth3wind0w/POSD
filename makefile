@@ -36,20 +36,20 @@ mainAtom.o: mainAtom.cpp utAtom.h
 utAtom: mainAtom.o Atom.o Variable.o Number.o
 		g++ -o utAtom mainAtom.o Atom.o Variable.o Number.o -lgtest -lpthread
 
-mainVariable.o: mainVariable.cpp utVariable.h $(INC_DIR)/variable.h variable.cpp
+mainVariable.o: mainVariable.cpp utVariable.h
 		g++ -std=c++11 -c mainVariable.cpp
-utVariable: mainVariable.o
-		g++ -o utVariable mainVariable.o -lgtest -lpthread
+utVariable: mainVariable.o Variable.o Number.o Atom.o
+		g++ -o utVariable mainVariable.o Variable.o Number.o Atom.o -lgtest -lpthread
 
-mainNumber.o: mainNumber.cpp utNumber.h $(INC_DIR)/number.h number.cpp
+mainNumber.o: mainNumber.cpp utNumber.h
 		g++ -std=c++11 -c mainNumber.cpp
-utNumber: mainNumber.o
-		g++ -o utNumber mainNumber.o -lgtest -lpthread
+utNumber: mainNumber.o Number.o Atom.o Variable.o
+		g++ -o utNumber mainNumber.o Number.o Atom.o Variable.o -lgtest -lpthread
 
-mainTerm.o: mainTerm.cpp utTerm.h $(INC_DIR)/number.h $(INC_DIR)/variable.h number.cpp
+mainTerm.o: mainTerm.cpp utTerm.h
 		g++ -std=c++11 -c mainTerm.cpp
-utTerm: mainTerm.o
-		g++ -o utTerm mainTerm.o -lgtest -lpthread
+utTerm: mainTerm.o Atom.o Variable.o Number.o
+		g++ -o utTerm mainTerm.o Atom.o Variable.o Number.o -lgtest -lpthread
 
 
 clean:	

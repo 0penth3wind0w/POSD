@@ -2,7 +2,7 @@
 
 string Atom::symbol(){ return _symbol; }
 
-int Atom::value(){ return _value; }
+string Atom::value(){ return _value; }
 
 bool Atom::match( Atom atom ){
     if(symbol() == atom.symbol()){
@@ -11,11 +11,32 @@ bool Atom::match( Atom atom ){
     return false;
 }
 
-bool Atom::match(Number &num){
+bool Atom::match(Number num){
     if(symbol() == num.symbol()){
         return true;
     }
     else{
         return false;
+    }
+}
+
+bool Atom::match(Variable &var){
+    if(var.assignable()){
+        var.setValue(_symbol);
+        var.setAssignableToFalse();
+        if(symbol() == var.value()){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    else {
+        if(symbol() == var.value()){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

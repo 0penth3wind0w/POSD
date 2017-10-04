@@ -1,5 +1,8 @@
 #include "include/number.h"
 #include "include/atom.h"
+#include "include/variable.h"
+
+using std::to_string;
 
 string Number::symbol(){ return _symbol; }
 int Number::value(){ return _value; }
@@ -13,16 +16,16 @@ bool Number::match(Number num){
     return false;
 }
 bool Number::match(Atom atom){
-    if(value() == atom.value()){
+    if(to_string(value()) == atom.value()){
         return true;
     }
     return false;
 }
-/*bool Number::match(Variable &var){
+bool Number::match(Variable &var){
     if(var.assignable()){
-        var.setValue(_value);
+        var.setValue(to_string(_value));
         var.setAssignableToFalse();
-        if(value()==var.value()){
+        if(to_string(value()) == var.value()){
             return true;
         }
         else {
@@ -30,11 +33,11 @@ bool Number::match(Atom atom){
         }
     }
     else {
-        if(value()==var.value()){
+        if(to_string(value()) == var.value()){
             return true;
         }
         else {
             return false;
         }
     }
-}*/
+}

@@ -1,7 +1,8 @@
 #ifndef UTVARIABLE_H
 #define UTVARIABLE_H
-#include "include/variable.h"
 
+#include "include/variable.h"
+#include "include/atom.h"
 
 TEST(Variable, constructor){
   Variable X("X");
@@ -15,6 +16,7 @@ TEST(Variable , matching){
   X.match(tom);
   ASSERT_EQ( "tom", X.value());
 }
+
 TEST (Variable , haveValue){
   Atom tom ("tom");
   Atom jerry ("jerry");
@@ -28,4 +30,5 @@ TEST (Variable , setValue){
   X.setValue("123");
   ASSERT_EQ("123", X.value());
 }
+
 #endif
