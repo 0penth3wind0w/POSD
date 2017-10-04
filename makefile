@@ -1,28 +1,13 @@
 INC_DIR = include
 
-#all: hw1
+all: hw2
 
-#hw1: main.o Shapes.o Media.o Sort.o
-#ifeq (${OS}, Windows_NT)
-#	g++ -o hw1 main.o Shapes.o Media.o Sort.o -lgtest
-#else
-#	g++ -o hw1 main.o Shapes.o Media.o Sort.o -lgtest -lpthread
-#endif
-	
-
-#Shapes.o: $(INC_DIR)/Shapes.h Shapes.cpp
-#	g++ -std=gnu++0x -c Shapes.cpp
-#Media.o: $(INC_DIR)/Media.h Media.cpp
-#	g++ -std=gnu++0x -c Media.cpp
-#Sort.o: $(INC_DIR)/Sort.h Sort.cpp
-#	g++ -std=gnu++0x -c Sort.cpp
-#main.o: main.cpp utSort.h 
-#	g++ -std=gnu++0x -c main.cpp
-
-#Number.o: Number.h Number.cpp
-#	g++ -std=gnu++0x -c Number.cpp
-#Variable.o: Variable.h Variable.cpp
-#	g++ -std=gnu++0x -c Variable.cpp
+hw2: mainTerm.o Atom.o Variable.o Number.o
+ifeq (${OS}, Windows_NT)
+	g++ -o hw2 mainTerm.o Atom.o Variable.o Number.o -lgtest
+else
+	g++ -o hw2 mainTerm.o Atom.o Variable.o Number.o -lgtest -lpthread
+endif
 
 Atom.o: $(INC_DIR)/atom.h atom.cpp
 		g++ -std=gnu++0x -o Atom.o -c atom.cpp
@@ -34,27 +19,42 @@ Number.o: $(INC_DIR)/number.h number.cpp
 mainAtom.o: mainAtom.cpp utAtom.h
 		g++ -std=c++11 -c mainAtom.cpp
 utAtom: mainAtom.o Atom.o Variable.o Number.o
-		g++ -o utAtom mainAtom.o Atom.o Variable.o Number.o -lgtest -lpthread
+ifeq (${OS}, Windows_NT)
+	g++ -o utAtom mainAtom.o Atom.o Variable.o Number.o -lgtest
+else
+	g++ -o utAtom mainAtom.o Atom.o Variable.o Number.o -lgtest -lpthread
+endif
 
 mainVariable.o: mainVariable.cpp utVariable.h
 		g++ -std=c++11 -c mainVariable.cpp
 utVariable: mainVariable.o Variable.o Number.o Atom.o
-		g++ -o utVariable mainVariable.o Variable.o Number.o Atom.o -lgtest -lpthread
+ifeq (${OS}, Windows_NT)
+	g++ -o utVariable mainVariable.o Variable.o Number.o Atom.o -lgtest
+else
+	g++ -o utVariable mainVariable.o Variable.o Number.o Atom.o -lgtest -lpthread
+endif
 
 mainNumber.o: mainNumber.cpp utNumber.h
 		g++ -std=c++11 -c mainNumber.cpp
 utNumber: mainNumber.o Number.o Atom.o Variable.o
-		g++ -o utNumber mainNumber.o Number.o Atom.o Variable.o -lgtest -lpthread
+ifeq (${OS}, Windows_NT)
+	g++ -o utNumber mainNumber.o Number.o Atom.o Variable.o -lgtest
+else
+	g++ -o utNumber mainNumber.o Number.o Atom.o Variable.o -lgtest -lpthread
+endif
 
 mainTerm.o: mainTerm.cpp utTerm.h
 		g++ -std=c++11 -c mainTerm.cpp
 utTerm: mainTerm.o Atom.o Variable.o Number.o
-		g++ -o utTerm mainTerm.o Atom.o Variable.o Number.o -lgtest -lpthread
-
+ifeq (${OS}, Windows_NT)
+		g++ -o utTerm mainTerm.o Atom.o Variable.o Number.o -lgtest
+else
+	g++ -o utTerm mainTerm.o Atom.o Variable.o Number.o -lgtest -lpthread
+endif
 
 clean:	
 ifeq (${OS}, Windows_NT)
 	del *.o *.exe
 else
-	rm -f *.o utTerm utAtom utNumber utVariable
+	rm -f *.o utTerm utAtom utNumber utVariable hw2
 endif
