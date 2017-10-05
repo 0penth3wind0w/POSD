@@ -11,7 +11,7 @@ using std::to_string;
 //test Number.value()
 TEST (Number,ctor) {
     Number num(1);
-    ASSERT_EQ(1, num.value());
+    ASSERT_EQ("1", to_string(num.value()));
 }
 //test Number.symbol()
 TEST (Number, symbol) {
