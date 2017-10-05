@@ -4,13 +4,14 @@
 #include <string>
 
 using std::string;
+using std::to_string;
 
 class Atom;
 class Variable;
 
 class Number{
 public:
-    Number(int v):_value(v) {}
+    Number(int v):_value(v), _symbol(to_string(v)) {}
     string symbol();
     string value();
     void setSymbol(string s);
