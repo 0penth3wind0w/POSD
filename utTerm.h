@@ -11,7 +11,7 @@ using std::to_string;
 //test Number.value()
 TEST (Number,ctor) {
     Number num(1);
-    ASSERT_EQ("1", to_string(num.value()));
+    ASSERT_EQ("1", num.value());
 }
 //test Number.symbol()
 TEST (Number, symbol) {
@@ -46,7 +46,7 @@ TEST (Number, matchSuccessToVar) {
     Number num(25);
     Variable var("VAR1");
     ASSERT_TRUE(num.match(var));
-    ASSERT_EQ(to_string(num.value()), var.value());
+    ASSERT_EQ(num.value(), var.value());
 }
 //?- tom=25.
 //false.

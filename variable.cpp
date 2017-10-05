@@ -28,9 +28,9 @@ bool Variable::match(Atom atom) {
 }
 bool Variable::match(Number num) {
     if(assignable()){
-        setValue(to_string(num.value()));
+        setValue(num.value());
         setAssignableToFalse();
-        if(value() == to_string(num.value())){
+        if(value() == num.value()){
             return true;
         }
         else {
@@ -38,7 +38,7 @@ bool Variable::match(Number num) {
         }
     }
     else {
-        if(value() == to_string(num.value())){
+        if(value() == num.value()){
             return true;
         }
         else {

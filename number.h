@@ -12,7 +12,7 @@ class Number{
 public:
     Number(int v):_value(v) {}
     string symbol();
-    int value();
+    string value();
     void setSymbol(string s);
     bool match(Number num);
     bool match(Atom atom);

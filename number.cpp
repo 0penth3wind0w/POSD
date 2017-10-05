@@ -5,7 +5,7 @@
 using std::to_string;
 
 string Number::symbol(){ return _symbol; }
-int Number::value(){ return _value; }
+string Number::value(){ return to_string(_value); }
 void Number::setSymbol(string s){
     _symbol = s;
 }
@@ -16,7 +16,7 @@ bool Number::match(Number num){
     return false;
 }
 bool Number::match(Atom atom){
-    if(to_string(value()) == atom.value()){
+    if(value() == atom.value()){
         return true;
     }
     return false;
@@ -25,7 +25,7 @@ bool Number::match(Variable &var){
     if(var.assignable()){
         var.setValue(to_string(_value));
         var.setAssignableToFalse();
-        if(to_string(value()) == var.value()){
+        if(value() == var.value()){
             return true;
         }
         else {
@@ -33,7 +33,7 @@ bool Number::match(Variable &var){
         }
     }
     else {
-        if(to_string(value()) == var.value()){
+        if(value() == var.value()){
             return true;
         }
         else {
