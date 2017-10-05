@@ -1,4 +1,4 @@
-INC_DIR = include
+#INC_DIR = include
 
 all: hw2
 
@@ -11,11 +11,11 @@ else
 		g++ -o hw2 mainTerm.o atom.o variable.o number.o -lgtest -lpthread
 endif
 
-atom.o: $(INC_DIR)/atom.h atom.cpp
+atom.o: atom.h atom.cpp
 		g++ -std=gnu++0x -c atom.cpp
-variable.o: $(INC_DIR)/variable.h variable.cpp
+variable.o: variable.h variable.cpp
 		g++ -std=gnu++0x -c variable.cpp
-number.o: $(INC_DIR)/number.h number.cpp
+number.o: number.h number.cpp
 		g++ -std=gnu++0x -c number.cpp
 
 mainAtom.o: mainAtom.cpp utAtom.h

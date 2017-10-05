@@ -1,4 +1,4 @@
-#include "include/atom.h"
+#include "atom.h"
 
 string Atom::symbol(){ return _symbol; }
 

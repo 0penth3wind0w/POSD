@@ -2,9 +2,9 @@
 #define UTTERM_H
 
 #include <string>
-#include "include/atom.h"
-#include "include/number.h"
-#include "include/variable.h"
+#include "atom.h"
+#include "number.h"
+#include "variable.h"
 
 using std::to_string;
 

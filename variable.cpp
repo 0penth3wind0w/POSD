@@ -1,5 +1,5 @@
-#include "include/variable.h"
-#include "include/atom.h"
+#include "variable.h"
+#include "atom.h"
 
 using std::to_string;
 

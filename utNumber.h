@@ -1,6 +1,6 @@
 #ifdef UTNUMBER_H
 #define UTNUMBER_H
-#include "include/number.h"
+#include "number.h"
 
 
 TEST(Number, true){
