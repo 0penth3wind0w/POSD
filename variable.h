@@ -4,18 +4,17 @@
 #include <string>
 #include "atom.h"
 #include "number.h"
-using std::string;
+#include "struct.h"
 
-//class Atom;
-//class Term;
+using std::string;
 
 class Variable : public Term{
 public:
-  Variable(string s):_symbol(s){}
-  string value();
+  Variable(string s):_symbol(s),_value(s){}
+  string value() const;
   string symbol() const;
-  //bool match(Atom atom);
-  //bool match(Number num);
+  bool match(Atom atom);
+  bool match(Number num);
   void setValue(string s);
   bool assignable();
   void setAssignableToFalse();

@@ -4,8 +4,16 @@
 
 using std::to_string;
 
-string Number::symbol(){ return _symbol; }
-string Number::value(){ return to_string(_value); }
+string Number::symbol() const { return _symbol; }
+string Number::value() const {
+    string input =  to_string(_value);
+    input.erase(input.find_last_not_of('0') + 1, std::string::npos);
+    if(&input.back() == "."){
+        input.erase(input.find_last_not_of('.') + 1, std::string::npos);
+    }
+
+    return input;
+}
 void Number::setSymbol(string s){
     _symbol = s;
 }

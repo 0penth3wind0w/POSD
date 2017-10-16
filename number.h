@@ -11,9 +11,9 @@ class Variable;
 
 class Number{
 public:
-    Number(int v):_value(v), _symbol(to_string(v)) {}
-    string symbol();
-    string value();
+    Number(float v):_value(v), _symbol(to_string(v)) {}
+    string symbol() const;
+    string value() const;
     void setSymbol(string s);
     //bool match(Number num);
     //bool match(Atom atom);
@@ -21,7 +21,7 @@ public:
     
 private:
     string _symbol;
-    int _value;
+    float _value;
 };
 
 #endif
