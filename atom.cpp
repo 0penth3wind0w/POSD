@@ -1,10 +1,8 @@
 #include "atom.h"
 
-string Atom::symbol(){ return _symbol; }
+string Atom::symbol() const { return _symbol; }
 
-string Atom::value(){ return _value; }
-
-bool Atom::match( Atom atom ){
+/*bool Atom::match( Atom atom ){
     if(symbol() == atom.symbol()){
         return true;
     }
@@ -39,4 +37,4 @@ bool Atom::match(Variable &var){
             return false;
         }
     }
-}
+}*/

@@ -3,19 +3,31 @@
 
 #include <string>
 #include "number.h"
-#include "variable.h"
+//#include "variable.h"
 
 using std::string;
 
-class Atom {
+class Term{
+  public:
+    virtual string symbol() const = 0;
+  
+    virtual string value() const{
+      return symbol();
+    };
+  
+    virtual bool match(Term & term) {
+      return symbol() == term.symbol();
+    }
+  
+};
+
+class Atom : public Term{
 public:
   Atom (string s):_symbol(s) {};
-  //bool operator ==(Atom a) {return _symbol == a._symbol;}
-  string symbol();
-  string value();
-  bool match(Atom atom);
-  bool match(Number num);
-  bool match(Variable &var);
+  string symbol() const;
+  //bool match(Atom atom);
+  //bool match(Number num);
+  //bool match(Variable &var);
 private:
   string _symbol;
   string _value;

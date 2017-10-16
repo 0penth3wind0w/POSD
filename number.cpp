@@ -9,7 +9,7 @@ string Number::value(){ return to_string(_value); }
 void Number::setSymbol(string s){
     _symbol = s;
 }
-bool Number::match(Number num){
+/*bool Number::match(Number num){
     if(value() == num.value()){
       return true;
     }
@@ -40,4 +40,4 @@ bool Number::match(Variable &var){
             return false;
         }
     }
-}
+}*/

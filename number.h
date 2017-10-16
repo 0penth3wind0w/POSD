@@ -15,9 +15,9 @@ public:
     string symbol();
     string value();
     void setSymbol(string s);
-    bool match(Number num);
-    bool match(Atom atom);
-    bool match(Variable &var);
+    //bool match(Number num);
+    //bool match(Atom atom);
+    //bool match(Variable &var);
     
 private:
     string _symbol;

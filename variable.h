@@ -2,18 +2,20 @@
 #define VARIABLE_H
 
 #include <string>
+#include "atom.h"
 #include "number.h"
 using std::string;
 
-class Atom;
+//class Atom;
+//class Term;
 
-class Variable{
+class Variable : public Term{
 public:
   Variable(string s):_symbol(s){}
   string value();
-  string symbol();
-  bool match(Atom atom);
-  bool match(Number num);
+  string symbol() const;
+  //bool match(Atom atom);
+  //bool match(Number num);
   void setValue(string s);
   bool assignable();
   void setAssignableToFalse();

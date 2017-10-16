@@ -4,9 +4,9 @@
 using std::to_string;
 
 string Variable::value() { return _value; }
-string Variable::symbol() { return _symbol; }
+string Variable::symbol() const { return _symbol; }
 
-bool Variable::match(Atom atom) {
+/*bool Variable::match(Atom atom) {
     if(assignable()){
         setValue(atom.symbol());
         setAssignableToFalse();
@@ -45,7 +45,7 @@ bool Variable::match(Number num) {
             return false;
         }
     }
-}
+}*/
 
 void Variable::setValue(string s) {
     _value = s;
