@@ -4,7 +4,7 @@
 
 using std::to_string;
 
-string Variable::value() const { return _value; }
+string Variable::value() const { return ptrValue->value()/*_value*/; }
 string Variable::valuePtr() const { }
 string Variable::symbol() const { return _symbol; }
 /*
