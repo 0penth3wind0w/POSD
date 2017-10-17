@@ -28,13 +28,18 @@ TEST (Variable , haveValue){
 // ?- X=2.7182.
 // X=2.7182
 TEST(Variable , numE_to_varX){
-
+  Number num(2.7182);
+  Variable var("X");
+  X.match(num);
+  ASSERT_EQ("2.7182",X.value);
 }
-
 // ?- X=Y, X=1.
 // Y=1
 TEST (Variable, varY_to_varX_and_num1_to_varX) {
-  
+  //Variable X("X");
+  //Variable Y("Y");
+  //sNumber num(1);
+
 }
   
 // ?- X=Y, Y=1.

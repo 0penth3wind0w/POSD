@@ -13,6 +13,7 @@ public:
   Variable(string s):_symbol(s),_value(s){}
   string value() const;
   string symbol() const;
+  bool match(Term & term);
   bool match(Atom atom);
   bool match(Number num);
   void setValue(string s);
@@ -21,6 +22,7 @@ public:
 private:
   string const _symbol;
   string _value;
+  string *value;
   bool _assignable = true;
 };
 
