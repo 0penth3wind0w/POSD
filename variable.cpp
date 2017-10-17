@@ -5,8 +5,9 @@
 using std::to_string;
 
 string Variable::value() const { return _value; }
+string Variable::valuePtr() const { }
 string Variable::symbol() const { return _symbol; }
-
+/*
 bool Variable::match(Term &term){
     Struct * ps = dynamic_cast<Struct *>(&term);
     if (ps){
@@ -30,7 +31,35 @@ bool Variable::match(Term &term){
         }
     }
     return false;
-  }
+}
+*/
+bool Variable::match(Term &term){
+    //Struct * ps = dynamic_cast<Struct *>(&term);
+    //if (ps){
+        if(assignable()){
+            //setValuePtr(term);
+            setAssignableToFalse();
+            ptrValue = &term;
+            if(ptrValue->value() == term.value()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            if(ptrValue->value() == term.value()){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    //}
+    return false;
+}
+
+
 
 /*bool Variable::match(Atom atom) {
     if(assignable()){

@@ -8,8 +8,8 @@ variable.o: variable.h variable.cpp
 		g++ -std=gnu++0x -c variable.cpp
 number.o: number.h number.cpp
 		g++ -std=gnu++0x -c number.cpp
-struct.o: struct.h
-		g++ -std=gnu++0x -c struct.h
+struct.o: struct.h struct.cpp
+		g++ -std=gnu++0x -c struct.cpp
 
 mainAtom.o: mainAtom.cpp utAtom.h
 		g++ -std=gnu++0x -c mainAtom.cpp
@@ -22,11 +22,11 @@ endif
 
 mainVariable.o: mainVariable.cpp utVariable.h
 		g++ -std=gnu++0x -c mainVariable.cpp
-utVariable: mainVariable.o variable.o number.o atom.o
+utVariable: mainVariable.o variable.o number.o atom.o struct.o
 ifeq (${OS}, Windows_NT)
-		g++ -o utVariable mainVariable.o variable.o number.o atom.o -lgtest
+		g++ -o utVariable mainVariable.o variable.o number.o atom.o struct.o -lgtest
 else
-		g++ -o utVariable mainVariable.o variable.o number.o atom.o -lgtest -lpthread
+		g++ -o utVariable mainVariable.o variable.o number.o atom.o struct.o -lgtest -lpthread
 endif
 
 mainNumber.o: mainNumber.cpp utNumber.h
