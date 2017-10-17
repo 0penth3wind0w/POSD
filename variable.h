@@ -3,10 +3,11 @@
 
 #include <string>
 #include "atom.h"
-#include "number.h"
-#include "struct.h"
 
 using std::string;
+
+class Number;
+class Struct;
 
 class Variable : public Term{
 public:
@@ -14,15 +15,15 @@ public:
   string value() const;
   string symbol() const;
   bool match(Term & term);
-  bool match(Atom atom);
-  bool match(Number num);
+  //bool match(Atom atom);
+  //bool match(Number num);
   void setValue(string s);
   bool assignable();
   void setAssignableToFalse();
 private:
   string const _symbol;
   string _value;
-  string *value;
+  string *ptrValue;
   bool _assignable = true;
 };
 

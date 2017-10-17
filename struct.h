@@ -1,14 +1,13 @@
 #ifndef STRUCT_H
 #define STRUCT_H
 
-#include "atom.h"
 #include <vector>
 #include <string>
+#include "atom.h"
 
 using std::string;
 
-class Struct:public Term
-{
+class Struct : public Term{
 public:
   Struct(Atom const & name, std::vector<Term *> args):_name(name), _args(args) { }
 
@@ -37,7 +36,7 @@ public:
     ret += _args[_args.size()-1]-> value() + ")";
     return  ret;
   }
-
+  bool match(Variable & variable);
   bool match(Term &term){
     Struct * ps = dynamic_cast<Struct *>(&term);
     if (ps){

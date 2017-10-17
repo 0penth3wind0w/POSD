@@ -1,5 +1,4 @@
 #include "number.h"
-#include "atom.h"
 #include "variable.h"
 
 using std::to_string;
@@ -16,18 +15,6 @@ string Number::value() const {
 }
 void Number::setSymbol(string s){
     _symbol = s;
-}
-/*bool Number::match(Number num){
-    if(value() == num.value()){
-      return true;
-    }
-    return false;
-}
-bool Number::match(Atom atom){
-    if(value() == atom.value()){
-        return true;
-    }
-    return false;
 }
 bool Number::match(Variable &var){
     if(var.assignable()){
@@ -48,4 +35,4 @@ bool Number::match(Variable &var){
             return false;
         }
     }
-}*/
+}

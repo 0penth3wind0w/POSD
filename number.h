@@ -2,22 +2,20 @@
 #define NUMBER_H
 
 #include <string>
+#include "atom.h"
 
 using std::string;
 using std::to_string;
 
-class Atom;
 class Variable;
 
-class Number{
+class Number : public Term{
 public:
     Number(float v):_value(v), _symbol(to_string(v)) {}
     string symbol() const;
     string value() const;
     void setSymbol(string s);
-    //bool match(Number num);
-    //bool match(Atom atom);
-    //bool match(Variable &var);
+    bool match(Variable &var);
     
 private:
     string _symbol;

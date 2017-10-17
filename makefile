@@ -1,15 +1,6 @@
 #INC_DIR = include
 
-all: hw2
-
-mainTerm.o: mainTerm.cpp utTerm.h
-		g++ -std=gnu++0x -c mainTerm.cpp
-hw2: mainTerm.o atom.o variable.o number.o
-ifeq (${OS}, Windows_NT)
-		g++ -o hw2 mainTerm.o atom.o variable.o number.o -lgtest
-else
-		g++ -o hw2 mainTerm.o atom.o variable.o number.o -lgtest -lpthread
-endif
+#all: hw3
 
 atom.o: atom.h atom.cpp
 		g++ -std=gnu++0x -c atom.cpp
@@ -17,6 +8,8 @@ variable.o: variable.h variable.cpp
 		g++ -std=gnu++0x -c variable.cpp
 number.o: number.h number.cpp
 		g++ -std=gnu++0x -c number.cpp
+struct.o: struct.h
+		g++ -std=gnu++0x -c struct.h
 
 mainAtom.o: mainAtom.cpp utAtom.h
 		g++ -std=gnu++0x -c mainAtom.cpp
@@ -43,6 +36,24 @@ ifeq (${OS}, Windows_NT)
 		g++ -o utNumber mainNumber.o number.o atom.o variable.o -lgtest
 else
 		g++ -o utNumber mainNumber.o number.o atom.o variable.o -lgtest -lpthread
+endif
+
+mainTerm.o: mainTerm.cpp utTerm.h
+		g++ -std=gnu++0x -c mainTerm.cpp
+utTerm: mainTerm.o atom.o variable.o number.o
+ifeq (${OS}, Windows_NT)
+		g++ -o hw2 mainTerm.o atom.o variable.o number.o -lgtest
+else
+		g++ -o hw2 mainTerm.o atom.o variable.o number.o -lgtest -lpthread
+endif
+
+mainStruct.o: mainStruct.cpp utStruct.h
+		g++ -std=gnu++0x -c mainTerm.cpp
+utStruct: mainStruct.o atom.o variable.o number.o
+ifeq (${OS}, Windows_NT)
+		g++ -o hw2 mainStruct.o atom.o variable.o number.o struct.o -lgtest
+else
+		g++ -o hw2 mainStruct.o atom.o variable.o number.o struct.o -lgtest -lpthread
 endif
 
 clean:	

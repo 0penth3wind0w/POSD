@@ -2,8 +2,11 @@
 #define ATOM_H
 
 #include <string>
+//#include "variable.h"
 
 using std::string;
+
+class Variable;
 
 class Term{
   public:
@@ -16,6 +19,8 @@ class Term{
     virtual bool match(Term & term) {
       return symbol() == term.symbol();
     }
+    
+    virtual bool match(Variable & variable){}
   
 };
 
@@ -23,8 +28,6 @@ class Atom : public Term{
 public:
   Atom (string s):_symbol(s) {};
   string symbol() const;
-  //bool match(Atom atom);
-  //bool match(Number num);
   //bool match(Variable &var);
 private:
   string _symbol;
