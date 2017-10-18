@@ -17,13 +17,20 @@ bool Variable::match(Term &term){
                 setValuePtr(ps);
                 return true;
             }
-            
-            /*if(_ptrValue->value() == ps->value()){
+            else if(!ps->assignable()&&!assignable()){//pending
+                return false;
+            }
+            else if(ps->assignable()){//pending
+                ps->setAssignableToFalse();
+                ps->setValuePtr(this);
                 return true;
             }
-            else {
-                return false;
-            }*/
+            else{//pending
+                setAssignableToFalse();
+                setValuePtr(ps);
+                return true;
+            }
+            
         }
         return false;
     }
