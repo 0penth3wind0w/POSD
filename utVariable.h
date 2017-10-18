@@ -5,6 +5,9 @@
 #include "atom.h"
 #include "number.h"
 
+using std::cout;
+using std::endl;
+
 TEST(Variable, constructor){
   Variable X("X");
   ASSERT_EQ("X", X.symbol());
@@ -31,22 +34,30 @@ TEST(Variable , numE_to_varX){
   Number num(2.7182);
   Variable X("X");
   X.match(num);
-  
-  //ASSERT_EQ("2.7182",X.value);
+  ASSERT_EQ("2.7182",X.value());
 }
 // ?- X=Y, X=1.
 // Y=1
 TEST (Variable, varY_to_varX_and_num1_to_varX) {
-  //Variable X("X");
-  //Variable Y("Y");
-  //sNumber num(1);
-
+  Variable X("X");
+  Variable Y("Y");
+  Number num(1);
+  X.match(Y);
+  //cout<<X.value()<<"ut"<<endl;
+  X.match(num);
+  //cout<<X.value()<<"ut"<<endl;
+  ASSERT_EQ("1", Y.value());
 }
   
 // ?- X=Y, Y=1.
 // X=1
 TEST (Variable, varY_to_varX_and_num1_to_varY) {
-  
+  Variable X("X");
+  Variable Y("Y");
+  Number num(1);
+  X.match(Y);
+  Y.match(num);
+  ASSERT_EQ("1", Y.value());
 }
 
 // ?- X=X, X=1.

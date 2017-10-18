@@ -4,62 +4,43 @@
 
 using std::to_string;
 
-string Variable::value() const { return ptrValue->value()/*_value*/; }
-string Variable::valuePtr() const { }
+string Variable::value() const { return _ptrValue->value()/*_value*/; }
+string Variable::valuePtr() const { return _ptrValue->value(); }
 string Variable::symbol() const { return _symbol; }
-/*
+
 bool Variable::match(Term &term){
-    Struct * ps = dynamic_cast<Struct *>(&term);
-    if (ps){
-        if(assignable()){
-            setValue(term.value());
-            setAssignableToFalse();
-            if(value() == term.symbol()){
+    if(term.isVar()){ //variable match other
+        Variable * ps = dynamic_cast<Variable *>(&term);
+        if(ps){
+            if(ps->assignable()&&assignable()){
+                ps->setValuePtr(this);
+                setValuePtr(ps);
                 return true;
             }
-            else{
-                return false;
-            }
-        }
-        else{
-            if(value() == term.symbol()){
+            
+            /*if(_ptrValue->value() == ps->value()){
                 return true;
             }
             else {
                 return false;
-            }
+            }*/
+        }
+        return false;
+    }
+    else{   //variable match variable
+        if(assignable()){
+            setAssignableToFalse();
+            _ptrValue = &term;
+            setValue( term.value());
+        }
+        if(_ptrValue->value() == term.value()){
+            return true;
+        }
+        else {
+            return false;
         }
     }
-    return false;
 }
-*/
-bool Variable::match(Term &term){
-    //Struct * ps = dynamic_cast<Struct *>(&term);
-    //if (ps){
-        if(assignable()){
-            //setValuePtr(term);
-            setAssignableToFalse();
-            ptrValue = &term;
-            if(ptrValue->value() == term.value()){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-        else{
-            if(ptrValue->value() == term.value()){
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-    //}
-    return false;
-}
-
-
 
 /*bool Variable::match(Atom atom) {
     if(assignable()){
@@ -102,12 +83,10 @@ bool Variable::match(Number num) {
     }
 }*/
 
-void Variable::setValue(string s) {
-    _value = s;
-}
+void Variable::setValue(string s) { _value = s; }
 
-bool Variable::assignable() { return _assignable; };
+void Variable::setValuePtr(Term *t){ _ptrValue = t;}
 
-void Variable::setAssignableToFalse() {
-    _assignable = false;
-}
+bool Variable::assignable() { return _assignable; }
+
+void Variable::setAssignableToFalse() { _assignable = false; }

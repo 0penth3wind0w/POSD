@@ -20,13 +20,14 @@ class Term{
       return symbol() == term.symbol();
     }
     
-    virtual bool match(Variable & variable){}
+    //virtual bool match(Variable & variable){}
+    virtual bool isVar() {return false;};
   
 };
 
 class Atom : public Term{
 public:
-  Atom (string s):_symbol(s) {};
+  Atom (string s):_symbol(s), _value(s) {};
   string symbol() const;
   //bool match(Variable &var);
 private:
