@@ -9,6 +9,7 @@ string Struct::symbol() const{
       ret += _args[i]-> symbol() + ", ";
     }
     ret += _args[_args.size()-1]-> symbol() + ")";
+    cout<<"24\n";
     return  ret;
   }
 

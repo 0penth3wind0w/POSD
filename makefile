@@ -60,5 +60,5 @@ clean:
 ifeq (${OS}, Windows_NT)
 		del *.o *.exe
 else
-		rm -f *.o utTerm utAtom utNumber utVariable hw2
+		rm -f *.o utTerm utAtom utNumber utVariable utStruct hw2
 endif
