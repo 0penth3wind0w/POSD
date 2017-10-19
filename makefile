@@ -2,6 +2,15 @@
 
 #all: hw3
 
+mainHw3.o: mainHw3.cpp utVariable.h utStruct.h
+		g++ -std=gnu++0x -c mainHw3.cpp
+hw3: mainHw3.o
+ifeq (${OS}, Windows_NT)
+		g++ -o hw3 mainHw3.o -lgtest
+else
+		g++ -o hw3 mainHw3.o -lgtest -lpthread
+endif
+
 mainAtom.o: mainAtom.cpp utAtom.h atom.h utStruct.h struct.h
 		g++ -std=gnu++0x -c mainAtom.cpp
 utAtom: mainAtom.o
@@ -51,5 +60,5 @@ clean:
 ifeq (${OS}, Windows_NT)
 		del *.o *.exe
 else
-		rm -f *.o utTerm utAtom utNumber utVariable utStruct hw2
+		rm -f *.o utTerm utAtom utNumber utVariable utStruct hw*
 endif

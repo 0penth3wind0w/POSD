@@ -1,5 +1,6 @@
 #ifndef UTVARIABLE_H
 #define UTVARIABLE_H
+
 #include "variable.h"
 #include "struct.h"
 #include "atom.h"
@@ -133,7 +134,15 @@ TEST (Variable, Struct1) {
 // Then #symbol() of Y should return "Y"
 // And #value() of Y should return "s(teddy)"
 TEST (Variable, Struct2) {
-  
+  Atom teddy("teddy");
+  Variable X("X");
+  Variable Y("Y");
+  std::vector<Term *> v = {&X};
+  Struct stru(Atom("s"),v);
+  Y.match(stru);
+  X.match(teddy);
+  EXPECT_EQ("Y", Y.symbol());
+  EXPECT_EQ("s(teddy)",Y.value());
 }
 
 #endif

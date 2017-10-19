@@ -2,15 +2,10 @@
 #define VARIABLE_H
 
 #include <string>
-#include <iostream>
 #include "atom.h"
 #include "struct.h"
 
 using std::string;
-using std::cout;
-
-//class Number;
-//class Struct;
 
 class Variable : public Term{
 public:
