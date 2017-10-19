@@ -3,14 +3,19 @@
 
 #include <string>
 
-class Term {
+class Term{
 public:
-    string symbol();
-    string value();
-    virtual bool match(Atom atom);
-private:
-    string _symbol;
-    int _value;
-}
+  virtual string symbol() const = 0;
+
+  virtual string value() const = 0;
+
+  virtual bool match(Term & term) {
+    return symbol() == term.symbol();
+  }
+  
+  //virtual bool match(Variable & variable){}
+  virtual bool isVar() {return false;};
+
+};
 
 #endif

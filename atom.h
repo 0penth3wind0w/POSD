@@ -12,9 +12,7 @@ class Term{
   public:
     virtual string symbol() const = 0;
   
-    virtual string value() const{
-      return symbol();
-    };
+    virtual string value() const = 0;
   
     virtual bool match(Term & term) {
       return symbol() == term.symbol();
@@ -27,9 +25,9 @@ class Term{
 
 class Atom : public Term{
 public:
-  Atom (string s):_symbol(s), _value(s) {};
-  string symbol() const;
-  string value() const;
+  Atom (string s):_symbol(s), _value(s) {}
+  string symbol() const { return _symbol; }
+  string value() const  { return _value; }
   //bool match(Variable &var);
 private:
   string _symbol;
