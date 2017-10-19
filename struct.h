@@ -1,11 +1,13 @@
 #ifndef STRUCT_H
 #define STRUCT_H
 
+#include <iostream>
 #include <vector>
 #include <string>
 #include "atom.h"
 
 using std::string;
+using std::cout;
 
 class Struct : public Term{
 public:
@@ -19,39 +21,11 @@ public:
     return _name;
   }
 
-  string symbol() const{
-    string ret =_name.symbol() + "(";
-    for(int i = 0; i < _args.size() - 1 ; i++){
-      ret += _args[i]-> symbol() + ", ";
-    }
-    ret += _args[_args.size()-1]-> symbol() + ")";
-    return  ret;
-  }
+  string symbol() const;
 
-  string value() const{
-    string ret =_name.value() + "(";
-    for(int i = 0; i < _args.size() - 1 ; i++){
-      ret += _args[i]-> value() + ", ";
-    }
-    ret += _args[_args.size()-1]-> value() + ")";
-    return  ret;
-  }
+  string value() const;
   bool match(Variable & variable);
-  bool match(Term &term){
-    Struct * ps = dynamic_cast<Struct *>(&term);
-    if (ps){
-      if (!_name.match(ps->_name))
-        return false;
-      if(_args.size()!= ps->_args.size())
-        return false;
-      for(int i=0;i<_args.size();i++){
-        if(_args[i]->symbol() != ps->_args[i]->symbol())
-            return false;
-      }
-      return true;
-    }
-    return false;
-  }
+  bool match(Term &term);
 
 private:
   Atom _name;

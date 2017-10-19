@@ -16,6 +16,7 @@ public:
     string value() const;
     void setSymbol(string s);
     bool match(Variable &var);
+    bool match(Term & term);
     
 private:
     string _symbol;

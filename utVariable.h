@@ -117,11 +117,17 @@ TEST (Variable, num1_to_varZ_to_varX_and_varY_to_varX) {
 // Then #symbol() of Y should return "Y"
 // And #value() of Y should return "s(X)"
 TEST (Variable, Struct1) {
+  cout<<"v1\n";
   Variable X("X");
+  cout<<"v2\n";
   std::vector<Term *> v = {&X};
-  Struct s(Atom("s"),v);
+  cout<<"v3\n";
+  Struct stru(Atom("s"),v);
+  cout<<"v4\n";
   Variable Y("Y");
-  Y.match(s);
+  cout<<"v5\n";
+  //cout<<stru.symbol();
+  Y.match(stru);
 }
 
 // Give there is a Struct s contains Variable X

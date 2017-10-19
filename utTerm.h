@@ -38,12 +38,16 @@ TEST (Number, matchFailureDiffConstant) {
     Atom atom("tom");
     Number num(25);
     ASSERT_FALSE( num.match(atom) );
+    cout<<"here";
 }
 //?- 25=X.
 //true.
 TEST (Number, matchSuccessToVar) {
+    cout<<"here0";
     Number num(25);
+    cout<<"here1";
     Variable var("VAR1");
+    cout<<"here2";
     ASSERT_TRUE(num.match(var));
     ASSERT_EQ(num.value(), var.value());
 }
@@ -70,6 +74,7 @@ TEST (Atom, matchSuccessToVarInstantedToDiffConstant) {
     ASSERT_TRUE(atom.match(var));
     ASSERT_EQ(atom.symbol(), var.value());
     ASSERT_TRUE(atom.match(var));
+    cout<<"1";
 }
 // ?- X=jerry, tom=X.
 // false.

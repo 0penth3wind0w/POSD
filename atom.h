@@ -29,6 +29,7 @@ class Atom : public Term{
 public:
   Atom (string s):_symbol(s), _value(s) {};
   string symbol() const;
+  string value() const;
   //bool match(Variable &var);
 private:
   string _symbol;

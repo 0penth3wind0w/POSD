@@ -42,18 +42,18 @@ mainTerm.o: mainTerm.cpp utTerm.h
 		g++ -std=gnu++0x -c mainTerm.cpp
 utTerm: mainTerm.o atom.o variable.o number.o
 ifeq (${OS}, Windows_NT)
-		g++ -o hw2 mainTerm.o atom.o variable.o number.o -lgtest
+		g++ -o utTerm mainTerm.o atom.o variable.o number.o -lgtest
 else
-		g++ -o hw2 mainTerm.o atom.o variable.o number.o -lgtest -lpthread
+		g++ -o utTerm mainTerm.o atom.o variable.o number.o -lgtest -lpthread
 endif
 
 mainStruct.o: mainStruct.cpp utStruct.h
-		g++ -std=gnu++0x -c mainTerm.cpp
-utStruct: mainStruct.o atom.o variable.o number.o
+		g++ -std=gnu++0x -c mainStruct.cpp
+utStruct: mainStruct.o atom.o variable.o number.o struct.o
 ifeq (${OS}, Windows_NT)
-		g++ -o hw2 mainStruct.o atom.o variable.o number.o struct.o -lgtest
+		g++ -o utStruct mainStruct.o atom.o variable.o number.o struct.o -lgtest
 else
-		g++ -o hw2 mainStruct.o atom.o variable.o number.o struct.o -lgtest -lpthread
+		g++ -o utStruct mainStruct.o atom.o variable.o number.o struct.o -lgtest -lpthread
 endif
 
 clean:	

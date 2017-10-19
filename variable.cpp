@@ -9,7 +9,8 @@ string Variable::valuePtr() const { return _ptrValue->value(); }
 string Variable::symbol() const { return _symbol; }
 
 bool Variable::match(Term &term){
-    if(term.isVar()){ //variable match other
+    if(term.isVar()){ //variable match variable
+        cout<<"123\n";
         Variable * ps = dynamic_cast<Variable *>(&term);
         if(ps){
             if(ps->assignable()&&assignable()){
@@ -34,11 +35,16 @@ bool Variable::match(Term &term){
         }
         return false;
     }
-    else{   //variable match variable
+    else{   //variable match other*/
+        cout<<"o1\n";
         if(assignable()){
+            cout<<"o2\n";
             setAssignableToFalse();
+            cout<<"o3\n";
             _ptrValue = &term;
+            cout<<"o4\n";
             setValue( term.value());
+            cout<<"o5\n";
         }
         if(_ptrValue->value() == term.value()){
             return true;
@@ -48,7 +54,6 @@ bool Variable::match(Term &term){
         }
     }
 }
-
 /*bool Variable::match(Atom atom) {
     if(assignable()){
         setValue(atom.symbol());
