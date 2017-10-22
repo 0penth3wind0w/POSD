@@ -3,6 +3,8 @@
 
 #include <string>
 
+using std::string;
+
 class Term{
 public:
   virtual string symbol() const = 0;

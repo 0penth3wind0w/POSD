@@ -2,7 +2,7 @@
 #define NUMBER_H
 
 #include <string>
-#include "atom.h"
+#include "term.h"
 #include "variable.h"
 
 using std::string;
@@ -34,17 +34,11 @@ public:
         _symbol = s;
     }
     bool match(Variable &var){
-        //cout<<"456";
         if(var.assignable()){
-            //cout<<"1n";
             var.setValue(to_string(_value));
+            var.setValuePtr(this);
             var.setAssignableToFalse();
-            if(value() == var.value()){
-                return true;
-            }
-            else {
-                return false;
-            }
+            return true;
         }
         else {
             if(value() == var.value()){
@@ -56,7 +50,6 @@ public:
         }
     }
     bool match(Term & term){
-        //cout<<"123";
         return symbol() == term.symbol();
     }
     

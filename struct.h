@@ -3,10 +3,11 @@
 
 #include <vector>
 #include <string>
+#include "term.h"
 #include "atom.h"
+#include "variable.h"
 
 using std::string;
-using std::cout;
 
 class Struct : public Term{
 public:
@@ -36,8 +37,7 @@ public:
     }
     ret += _args[_args.size()-1]-> value() + ")";
     return  ret;
-}
-  bool match(Variable & variable){};
+  }
   bool match(Term &term){
     Struct * ps = dynamic_cast<Struct *>(&term);
     if (ps){

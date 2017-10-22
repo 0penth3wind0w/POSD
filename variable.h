@@ -2,8 +2,7 @@
 #define VARIABLE_H
 
 #include <string>
-#include "atom.h"
-#include "struct.h"
+#include "term.h"
 
 using std::string;
 

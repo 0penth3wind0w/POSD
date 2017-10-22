@@ -2,9 +2,9 @@
 #define UTVARIABLE_H
 
 #include "variable.h"
-#include "struct.h"
 #include "atom.h"
 #include "number.h"
+#include "struct.h"
 
 using std::cout;
 using std::endl;

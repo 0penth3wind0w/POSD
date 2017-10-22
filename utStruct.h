@@ -1,3 +1,6 @@
+#ifndef UTSTRUCT_H
+#define UTSTRUCT_H
+
 #include <vector>
 #include "atom.h"
 #include "struct.h"
@@ -175,3 +178,4 @@ TEST(Struct, nested_struct_and_multiVariable)
   //EXPECT_TRUE(false);
 }
 
+#endif

@@ -2,27 +2,34 @@
 #define UTLIST_H
 
 #include <string>
-using std::string;
-
+#include <vector>
 #include "list.h"
-#include "struct.h"
+#include "term.h"
 #include "atom.h"
 #include "number.h"
 #include "variable.h"
+#include "struct.h"
+
+using std::string;
 
 // When create a new list without any item
 // Then #symbol() of the list should return "[]"
-TEST (List, constructor) {
-  
+TEST(List, constructor) {
+    List nlist();
+    EXPECT_EQ("[]", nlist.symbol());
 }
 
 // Given there are two perfect Numbers: 8128, 496
 // When create a new list with the perfect Number
 // Then #symbol() of the list should return "[496, 8128]"
 TEST(List, Numbers) {
-
+    //Number num1(8128);
+    //Number num2(496);
+    //std::vector<Term *> vec = {&num1, &num2};
+    //List list(vec);
+    //EXPECT_EQ("[496,8128]", list.symbol());
 }
-
+/*
 // Given there are two atoms: "terence_tao", "alan_mathison_turing"
 // When create a new list with the Atoms
 // Then #symbol() of the list should return "[terence_tao, alan_mathison_turing]"
@@ -141,7 +148,7 @@ TEST (List, emptyExecptionOfHead) {
 TEST (List, emptyExecptionOfTail) {
 
 }
-
+*/
 
 
 
