@@ -132,18 +132,34 @@ TEST(List, matchToSameListWithDiffVarNameShouldSucceed) {
   List compactY(vec2);
   EXPECT_TRUE(compactX.match(compactY));
 }
-/*
+
 // ?- [496, X, terence_tao] = [496, 8128, terence_tao].
 // X = 8128.
 TEST(List, matchToVarToAtominListShouldSucceed) {
-
+  Number num1(496);
+  Number num2(8128);
+  Variable X("X");
+  Atom terence_tao("terence_tao");
+  std::vector<Term *> vec1 = {&num1, &X, &terence_tao};
+  std::vector<Term *> vec2 = {&num1, &num2, &terence_tao};
+  List compactX(vec1);
+  List compactY(vec2);
+  EXPECT_TRUE(compactX.match(compactY));
 }
 
 // ?- Y = [496, X, terence_tao], X = alan_mathison_turing.
 // Y = [496, alan_mathison_turing, terence_tao],
 // X = alan_mathison_turing.
 TEST(List, matchVarinListToAtomShouldSucceed) {
-
+  Atom terence_tao("terence_tao");
+  Atom alan_mathison_turing("alan_mathison_turing");
+  Number num(496);
+  Variable X("X");
+  Variable Y("Y");
+  std::vector<Term *> vec = {&num, &X, &terence_tao};
+  List compact(vec);
+  X.match(alan_mathison_turing);
+  EXPECT_TRUE(Y.match(compact));
 }
 
 // Example: 
@@ -173,29 +189,41 @@ TEST(List, headAndTailMatching2) {
 // ?- [[first], second, third] = [H|T].
 // H = [first], T = [second, third].
 TEST(List, headAndTailMatching3) {
-
+  Atom f("first"), s("second"), t("third");
+  vector<Term *> args1 = {&f};
+  List l(args1);
+  vector<Term *> args = {&l, &s, &t};
+  List l2(args);
+  EXPECT_EQ(string("[first]"), l2.head()->symbol());
+  EXPECT_EQ(string("[second, third]"), l2.tail()->value());
 }
 
 // ?- [first, second, third] = [first, second, H|T].
 // H = third, T = [].
 TEST(List, headAndTailMatching4) {
-
+  Atom f("first"), s("second"), t("third");
+  vector<Term *> args = {&f, &s, &t};
+  List l(args);
+  EXPECT_EQ(string("third"), l.tail()->tail()->head()->value());
+  EXPECT_EQ(string("[]"), l.tail()->tail()->tail()->value());
 }
  
 // Given there is a empty list
 // When client still want to get the head of list
 // Then it should throw a string: "Accessing head in an empty list" as an exception.
 TEST (List, emptyExecptionOfHead) {
-
+  List *l = new List();
+  EXPECT_TRUE(false);
 }
 
 // Given there is a empty list
 // When client still want to get the head of list
 // Then it should throw a string: "Accessing tail in an empty list" as an exception.
 TEST (List, emptyExecptionOfTail) {
-
+  List *l = new List();
+  EXPECT_TRUE(false);
 }
-*/
+
 
 
 

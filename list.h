@@ -47,27 +47,34 @@ public:
     }
     
     bool match(Term & term){
-        List * ps = dynamic_cast<List *>(&term);
-        if (ps){
-            if(_elements.size()!= ps->_elements.size())
-                return false;
+        if(term.isVar()){
+            //penfing
+        }
+        else{
+            List * ps = dynamic_cast<List *>(&term);
+            if (ps){
+                if(_elements.size()!= ps->_elements.size())
+                    return false;
                 for(int i=0;i<_elements.size();i++){
-                    if(_elements[i]->isVar()){
-                        _elements[i]->match(ps->_elements[i]);
-                    }
-                    else{
-                        if(_elements[i]->value() != ps->_elements[i]->value()){
-                            cout<<_elements[i]->symbol()<<"\t"<<ps->_elements[i]->value()<<"\n";
-                            return false;
-                        }
-                    }
+                    _elements[i]->match(*ps->_elements[i]);
                 }
                 return true;
             }
-        return false;
+            return false;
+        }
     }
-    Term * head() const { return _elements.front();}
-    List * tail() const ;
+    Term * head() const { 
+        if( _elements.empty() ){
+            
+        }
+        return _elements.front();
+    }
+    List * tail() const {
+        vector<Term *> outvec = _elements;
+        outvec.erase(outvec.begin());
+        List *l = new List(outvec);
+        return l;
+    }
 
 private:
     vector<Term *> _elements;
