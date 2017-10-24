@@ -6,7 +6,6 @@
 #include "number.h"
 #include "struct.h"
 
-using std::cout;
 using std::endl;
 
 TEST(Variable, constructor){
@@ -44,9 +43,7 @@ TEST (Variable, varY_to_varX_and_num1_to_varX) {
   Variable Y("Y");
   Number num(1);
   X.match(Y);
-  //cout<<X.value()<<"ut"<<endl;
   X.match(num);
-  //cout<<X.value()<<"ut"<<endl;
   ASSERT_EQ("1", Y.value());
 }
   

@@ -1,13 +1,11 @@
 #ifndef LIST_H
 #define LIST_H
 
-#include <iostream>
 #include <string>
 #include <vector>
 #include "term.h"
 #include "variable.h"
 
-using std::cout;
 using std::string;
 using std::vector;
 
@@ -65,11 +63,14 @@ public:
     }
     Term * head() const { 
         if( _elements.empty() ){
-            
+            throw std::string( "Accessing head in an empty list" );
         }
         return _elements.front();
     }
     List * tail() const {
+        if( _elements.empty() ){
+            throw std::string( "Accessing tail in an empty list" );
+        }
         vector<Term *> outvec = _elements;
         outvec.erase(outvec.begin());
         List *l = new List(outvec);

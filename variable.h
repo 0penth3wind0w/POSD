@@ -55,16 +55,20 @@ public:
         if (assignable())
         {
             setAssignableToFalse();
-            _ptrValue = &term;
             setValue(term.value());
-        }
-        if (_ptrValue->value() == term.value())
-        {
+            _ptrValue = &term;
             return true;
         }
-        else
-        {
-            return false;
+        //need a fix to match term
+        else{
+            if (_ptrValue->value() == term.value())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
   }
