@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include "term.h"
-#include "variable.h"
+//#include "variable.h"
 
 using std::string;
 using std::vector;
@@ -76,7 +76,12 @@ public:
         List *l = new List(outvec);
         return l;
     }
-
+	int esize(){
+		return _elements.size();
+	}
+	string element(int i){
+		return _elements[i]->value();
+	}
 private:
     vector<Term *> _elements;
 

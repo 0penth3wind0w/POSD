@@ -112,9 +112,9 @@ TEST(List, matchToVarOccuredInListShouldFail) {
   Atom terence_tao("terence_tao");
   std::vector<Term *> vec = {&num, &X, &terence_tao};
   List compact(vec);
-  EXPECT_TRUE(X.match(compact));
+  //EXPECT_TRUE(X.match(compact));
   //need a fix here: cannot call value() after match
-  //EXPECT_FALSE(X.match(compact));
+  EXPECT_FALSE(X.match(compact));
 }
 
 // ?- [496, X, terence_tao] = [496, X, terence_tao].

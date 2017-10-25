@@ -3,6 +3,7 @@
 
 #include <string>
 #include "term.h"
+#include "list.h"
 
 using std::string;
 
@@ -54,6 +55,14 @@ public:
     else{ //variable match other*/
         if (assignable())
         {
+			List *ps = dynamic_cast<List *>(&term);
+			if(ps){
+				for(int i=0; i<ps->esize();++i){
+					if(ps->element(i)==value()){
+						return false;
+					}
+				}
+		}
             setAssignableToFalse();
             setValue(term.value());
             _ptrValue = &term;
@@ -70,10 +79,8 @@ public:
                 return false;
             }
         }
-    }
+  	}
   }
-  //bool match(Atom atom);
-  //bool match(Number num);
   void setValue(string s) { _value = s; }
   void setValuePtr(Term *t){ _ptrValue = t; }
   bool assignable(){ return _assignable; }
