@@ -20,7 +20,7 @@ public:
       else if (isdigit(currentChar())) {
         _tokenValue = extractNumber();
         return NUMBER;
-      }  else if (islower(currentChar())) {
+      } else if (islower(currentChar())) {
         string s = extractAtom();
         processToken<ATOM>(s);
         return ATOM;
@@ -32,7 +32,11 @@ public:
         string s = extractVar();
         processToken<VAR>(s);
         return VAR;
-      } else {
+      } /*else if (currentChar() == '['){
+        extractChar();
+        _tokenValue = NONE;
+        return LIST;
+      } */else {
         _tokenValue = NONE;
         return extractChar();
       }
