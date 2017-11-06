@@ -5,6 +5,7 @@ using std::string;
 
 #include "atom.h"
 #include "variable.h"
+#include "number.h"
 #include "global.h"
 #include "scanner.h"
 #include "struct.h"
@@ -18,6 +19,9 @@ public:
       return new Variable(symtable[_scanner.tokenValue()].first);
     }else if(token == NUMBER){
       return new Number(_scanner.tokenValue());
+    }else if(token == ATOMSC){
+      if(symtable[_scanner.tokenValue()].first == "[")
+        return new List();
     }else if(token == ATOM){
         Atom* atom = new Atom(symtable[_scanner.tokenValue()].first);
         if(_scanner.currentChar() == '(' ) {

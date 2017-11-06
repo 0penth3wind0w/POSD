@@ -71,6 +71,24 @@ endif
 mainList.o: mainList.cpp utList.h
 		g++ -std=gnu++0x -c mainList.cpp
 
+utScanner: mainScanner.o
+ifeq (${OS}, Windows_NT)
+	g++ -o utScanner mainScanner.o -lgtest
+else	
+	g++ -o utScanner mainScanner.o -lgtest -lpthread
+endif
+mainScanner.o: mainScanner.cpp utScanner.h
+		g++ -std=c++11 -c mainScanner.cpp
+
+utParser: mainParser.o
+ifeq (${OS}, Windows_NT)
+	g++ -o utParser mainParser.o -lgtest
+else	
+	g++ -o utParser mainParser.o -lgtest -lpthread
+endif
+mainParser.o: mainParser.cpp term.h atom.h number.h variable.h struct.h scanner.h parser.h utParser.h
+		g++ -std=c++11 -c mainParser.cpp
+
 
 clean:	
 ifeq (${OS}, Windows_NT)
