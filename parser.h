@@ -20,6 +20,7 @@ public:
   Term* createTerm(){
     cout<<"in\t";
     int token = _scanner.nextToken();
+    _currentToken=token;
     cout<<token<<"\n";
     if(token == VAR){
       cout<<symtable[_scanner.tokenValue()].first<<"VAR \n";
@@ -41,8 +42,11 @@ public:
       else
         return atom;
     }
-    else if(token == '['){
+    else if(token == LIST){
+      cout<<"token\n";
+      _scanner.nextToken();
       int i = _scanner.tokenValue();
+      cout<<_currentToken<<" current\n";
       cout<<i<<" i\n";
       if(i == ']'){
         cout<<"empty\n";
