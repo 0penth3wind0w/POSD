@@ -1,11 +1,11 @@
 #ifndef SCANNER_H
 #define SCANNER_H
 
-#include "global.h"
-
-
 #include <string>
 #include <vector>
+
+#include "global.h"
+
 using std::string;
 using std::vector;
 

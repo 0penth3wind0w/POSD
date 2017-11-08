@@ -14,7 +14,7 @@ ifeq (${OS}, Windows_NT)
 else
 		g++ -o hw3 mainHw.o -lgtest -lpthread
 endif
-mainHw.o: mainHw.cpp utVariable.h utStruct.h
+mainHw.o: mainHw.cpp utParser.h utScanner.h
 		g++ -std=gnu++0x -c mainHw.cpp
 
 utAtom: mainAtom.o

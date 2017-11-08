@@ -2,6 +2,7 @@
 #define STRUCT_H
 
 #include <vector>
+
 #include <string>
 #include "term.h"
 #include "atom.h"
@@ -23,6 +24,10 @@ public:
 
   string symbol() const {
     string ret =_name.symbol() + "(";
+    if(_args.size() == 0){
+      ret += ")";
+      return ret;
+    }
     for(int i = 0; i < _args.size() - 1 ; i++){
       ret += _args[i]-> symbol() + ", ";
     }
@@ -54,6 +59,9 @@ public:
     return false;
   }
 
+  int arity(){
+    return _args.size();
+  }
 private:
   Atom _name;
   std::vector<Term *> _args;

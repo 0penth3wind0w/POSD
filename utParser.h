@@ -7,6 +7,7 @@
 #include "list.h"
 #include "variable.h"
 #include "number.h"
+#include "struct.h"
 
 class ParserTest : public ::testing::Test {
 protected:
@@ -107,32 +108,31 @@ TEST_F(ParserTest, parseListEmpty) {
 // When parser parses all terms via scanner.
 // Then it should return a Variable.
 // And #symbol() of Variable should return "_date".
-/*TEST_F(ParserTest, parseVar) {
+TEST_F(ParserTest, parseVar) {
   Scanner scanner("_date");
   Parser parser(scanner);
   ASSERT_EQ("_date", parser.createTerm()->symbol());
-}*/
+}
 
 // Given there is not string in scanner.
 // When parser parses all terms via scanner.
 // Then it should return nothing.
-/*TEST_F(ParserTest, listOfTermsEmpty) {
+TEST_F(ParserTest, listOfTermsEmpty) {
   Scanner scanner("");
   Parser parser(scanner);
   ASSERT_EQ(nullptr,parser.createTerm());
-}*/
+}
 
 // Given there is string: "s(s(s(s(1))))" in scanner.
 // When parser parses all terms via scanner.
 // Then it should return a Struct.
 // And #symbol() of Strcut should return "s(s(s(s(1))))".
-/*
 TEST_F(ParserTest, parseStructOfStructAllTheWay) {
   Scanner scanner("s(s(s(s(1))))");
   Parser parser(scanner);
   ASSERT_EQ("s(s(s(s(1))))", parser.createTerm()->symbol());
-}*/
-/*
+}
+
 // Given there is string: "   [  [1], [] ]" in scanner.
 // When parser parses all terms via scanner.
 // Then it should return a List.
@@ -141,16 +141,18 @@ TEST_F(ParserTest, parseListOfLists) {
   Scanner scanner("   [  [1], [] ]");
   Parser parser(scanner);
   ASSERT_EQ("[[1], []]", parser.createTerm()->symbol());
-}*/
-/*
+}
+
 // Given there is string: "   [  [1], [], s(s(1)) ]   " in scanner.
 // When parser parses all terms via scanner.
 // Then it should return a List.
 // And #symbol() of List should return "[[1], [], s(s(1))]".
 TEST_F(ParserTest, parseListOfListsAndStruct) {
+  Scanner scanner("   [  [1], [], s(s(1)) ]   ");
   Parser parser(scanner);
+  ASSERT_EQ("[[1], [], s(s(1))]", parser.createTerm()->symbol());
 }
-*/
+
 // Given there is string: "   [1, 2]" in scanner.
 // When parser parses all terms via scanner.
 // Then it should return a List.
@@ -160,15 +162,21 @@ TEST_F(ParserTest, parseList) {
   Parser parser(scanner);
   ASSERT_EQ("[1, 2]", parser.createTerm()->symbol());
 }
-/*
+
 // Given there is string: "[1,2)" in scanner.
 // When parser parses all terms via scanner.
 // Then it should return a string: "unexpected token" as exception.
 TEST_F(ParserTest, illegal1) {
+  Scanner scanner("[1,2)");
   Parser parser(scanner);
+  try {
+    Parser parser(scanner);
+  }
+  catch( const std::string & e ) {
+    EXPECT_EQ(string("unexpected token"), e);
+  }
 }
-*/
-/*
+
 // Given there is string: ".(1,[])" in scanner.
 // When parser parses all terms via scanner.
 // Then it should return a Struct which contains two terms.
@@ -176,10 +184,21 @@ TEST_F(ParserTest, illegal1) {
 // And #symbol() of Struct should return ".(1, [])".
 // And the first term should be number: "1", the second term should be another List: "[]".
 TEST_F(ParserTest, ListAsStruct) {
+  Scanner scanner(".(1, [])");
   Parser parser(scanner);
+  Term* sterm = parser.createTerm();
+  Struct* ps = dynamic_cast<Struct *>(sterm);
+  if (ps){
+    ASSERT_EQ(2, ps->arity());
+    ASSERT_EQ(".(1, [])", ps->symbol());
+    ASSERT_EQ("1", ps->args(0)->symbol());
+    ASSERT_EQ("[]", ps->args(1)->symbol());
+  }
+  else{
+    ASSERT_FALSE(true);
+  }
 }
-*/
-/*
+
 // Given there is string: ".(2,.(1,[]))" in scanner.
 // When parser parses all terms via scanner.
 // Then it should return a Struct which contains two terms.
@@ -187,22 +206,34 @@ TEST_F(ParserTest, ListAsStruct) {
 // And #symbol() of Struct should return ".(2, .(1, []))"
 // And the first term should be number: "2", the second term should be another Strcut: ".(1, [])".
 TEST_F(ParserTest, ListAsStruct2) {
+  Scanner scanner(".(2,.(1,[]))");
   Parser parser(scanner);
+  Term* sterm = parser.createTerm();
+  Struct* ps = dynamic_cast<Struct *>(sterm);
+  if (ps){
+    ASSERT_EQ(2, ps->arity());
+    ASSERT_EQ(".(2, .(1, []))", ps->symbol());
+    ASSERT_EQ("2", ps->args(0)->symbol());
+    ASSERT_EQ(".(1, [])", ps->args(1)->symbol());
+  }
+  else{
+    ASSERT_FALSE(true);
+  }
 }
-*/
+
 // Given there is string: "s(s(s(s(1)))), b(1,2,3)" in scanner.
 // When parser parses all terms via scanner.
 // Then it should return two Struct.
 // And #symbol() of the first Strcut should return "s(s(s(s(1))))".
 // And #symbol() of the second Strcut should return "b(1, 2, 3)".
-/*TEST_F(ParserTest, parseStructOfStructAllTheWay2) {
+TEST_F(ParserTest, parseStructOfStructAllTheWay2) {
   Scanner scanner("s(s(s(s(1)))), b(1,2,3)");
   Parser parser(scanner);
   vector<Term*> terms = parser.getArgs();
   ASSERT_EQ("s(s(s(s(1))))", terms[0]->symbol());
   ASSERT_EQ("b(1, 2, 3)", terms[1]->symbol());
-}*/
-/*
+}
+
 // Given there is string: "point()" in scanner.
 // When parser parses all terms via scanner.
 // Then it should return a Struct.
@@ -212,19 +243,19 @@ TEST_F(ParserTest, parseStructNoArg) {
   Parser parser(scanner);
   ASSERT_EQ("point()", parser.createTerm()->symbol());
 }
-*/
+
 // Given there is string: " 12345,  tom,   Date" in scanner.
 // When parser parses all terms via scanner.
 // Then it should return three terms: "12345", "tom" and "Date".
-/*TEST_F(ParserTest, listOfTermsThree) {
+TEST_F(ParserTest, listOfTermsThree) {
   Scanner scanner(" 12345,  tom,   Date");
   Parser parser(scanner);
   vector<Term*> terms = parser.getArgs();
   ASSERT_EQ("12345", terms[0]->symbol());
   ASSERT_EQ("tom", terms[1]->symbol());
   ASSERT_EQ("Date", terms[2]->symbol());
-}*/
-/*
+}
+
 // Given there is string: "point(11,12)" in scanner.
 // When parser parses all terms via scanner.
 // Then it should return a Struct.
@@ -233,8 +264,8 @@ TEST_F(ParserTest, parseStructTwoArgs) {
   Scanner scanner("point(11,12)");
   Parser parser(scanner);
   ASSERT_EQ("point(11, 12)", parser.createTerm()->symbol());
-}*/
-/*
+}
+
 // Given there is string: "...(11,12)" in scanner.
 // When parser parses all terms via scanner.
 // Then it should return a Struct.
@@ -243,8 +274,8 @@ TEST_F(ParserTest, parseStructDOTSTwoArgs) {
   Scanner scanner("...(11, 12)");
   Parser parser(scanner);
   ASSERT_EQ("...(11, 12)", parser.createTerm()->symbol());
-}*/
-/*
+}
+
 // Given there is string: "point(11)" in scanner.
 // When parser parses all terms via scanner.
 // Then it should return a Struct.
@@ -254,5 +285,5 @@ TEST_F(ParserTest, parseStructOneArg) {
   Parser parser(scanner);
   ASSERT_EQ("point(11)", parser.createTerm()->symbol());
 }
-*/
+
 #endif
