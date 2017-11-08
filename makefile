@@ -1,18 +1,12 @@
 #INC_DIR = include
 
-all: hw3 hw4
+all: hw5
 
-hw4: mainHw.o
+hw5: mainHw.o
 ifeq (${OS}, Windows_NT)
-		g++ -o hw4 mainHw.o -lgtest
+		g++ -o hw5 mainHw.o -lgtest
 else
-		g++ -o hw4 mainHw.o -lgtest -lpthread
-endif
-hw3: mainHw.o
-ifeq (${OS}, Windows_NT)
-		g++ -o hw3 mainHw.o -lgtest
-else
-		g++ -o hw3 mainHw.o -lgtest -lpthread
+		g++ -o hw5 mainHw.o -lgtest -lpthread
 endif
 mainHw.o: mainHw.cpp utParser.h utScanner.h
 		g++ -std=gnu++0x -c mainHw.cpp
