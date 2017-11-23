@@ -84,9 +84,15 @@ public:
     {
       _terms.push_back(term);
       while((_currentToken = _scanner.nextToken()) == ','||(_currentToken  == ';')||(_currentToken  == '=')){
-        Operators op;
         if(_currentToken  == ';'){
-          op = SEMICOLON;
+          Node *l = subTree;
+          matchings();
+          Node *r = _parseTree;
+          
+          Node *parseTree = new Node(SEMICOLON);
+          parseTree->left = l;
+          parseTree->right = r;
+          subTree = parseTree;
         }
         else if(_currentToken  == ','){
           Node *l = subTree;
@@ -97,6 +103,24 @@ public:
           parseTree->left = l;
           parseTree->right = r;
           subTree = parseTree;
+
+          for(int i=0; i<_terms.size()-1; ++i){
+            Variable *ps = dynamic_cast<Variable *>(_terms[i]);
+            if(ps){
+              cout<<_terms[i]->symbol()<<"\tsymbol_i\n";
+              for(int j=i+1; j<_terms.size()-1; ++j){
+                Variable *ps2 = dynamic_cast<Variable *>(_terms[j]);
+                if(ps2){
+                  if(ps->symbol()==ps2->symbol()){
+                    cout<<ps->symbol()<<"\t"<<ps2->symbol()<<"\ttwo_symbol\n";
+                    cout<<"parseHere5\n";
+                    _terms[i]->match(*_terms[j]);
+                    cout<<"parseHere6\n";
+                  }
+                }
+              }
+            }
+          }
         }
         else if(_currentToken == '='){
           Node *l = new Node(TERM);

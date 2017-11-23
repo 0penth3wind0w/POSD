@@ -1,10 +1,12 @@
 #ifndef VARIABLE_H
 #define VARIABLE_H
 
+#include <iostream>
 #include <string>
 #include "term.h"
 #include "list.h"
 
+using std::cout;
 using std::string;
 
 class Variable : public Term{
@@ -32,19 +34,23 @@ public:
         Variable *ps = dynamic_cast<Variable *>(&term);
         if (ps){
             if (ps->assignable() && assignable()){
+                cout<<"VARMATCH_1\n";
                 ps->setValuePtr(this);
                 setValuePtr(ps);
                 return true;
             }
             else if (!ps->assignable() && !assignable()){ //pending
+                cout<<"VARMATCH_2\n";
                 return false;
             }
             else if (ps->assignable()){ //pending
+                cout<<"VARMATCH_3\n";
                 ps->setAssignableToFalse();
                 ps->setValuePtr(this);
                 return true;
             }
             else{ //pending
+                cout<<"VARMATCH_4\n";
                 setAssignableToFalse();
                 setValuePtr(ps);
                 return true;

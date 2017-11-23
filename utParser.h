@@ -279,6 +279,7 @@ TEST_F(ParserTest, TwoVariableMatching2) {
   Scanner scanner("X=1, X=Y.");
   Parser parser(scanner);
   parser.matchings();
+   cout<<"TwoVariableMatching2 cout 0\n";
   vector<Term *> terms = parser.getTerms();
   EXPECT_EQ(4, terms.size());
   EXPECT_EQ("X", terms[0]->symbol());
@@ -291,8 +292,13 @@ TEST_F(ParserTest, TwoVariableMatching2) {
   Node * et = parser.expressionTree();
   EXPECT_TRUE(et->evaluate());
   cout<<"TwoVariableMatching2 cout 2\n";
-  cout<<terms[0]->symbol()<<"\n";
+  cout<<&terms[0]<<"\taddr 0\n";
+  cout<<terms[0]->symbol()<<"\tsym 0\n";
+  cout<<terms[0]->value()<<"\tval 0\n";
   EXPECT_EQ("1", terms[0]->value());
+  cout<<&terms[2]<<"\taddr 2\n";
+  cout<<terms[2]->symbol()<<"\tsym 2\n";
+  cout<<terms[2]->value()<<"\tval 2\n";
   EXPECT_EQ("1", terms[2]->value());
 }
 
@@ -399,7 +405,7 @@ TEST_F(ParserTest, ConjTwoMatchingFailure) {
   EXPECT_EQ("2", et->right->right->term->symbol());
 
   EXPECT_FALSE(et->evaluate());
-}
+}*/
 
 TEST_F(ParserTest, DisjTwoMatchingSuccess) {
   Scanner scanner("X=1; X=2.");
@@ -427,7 +433,7 @@ TEST_F(ParserTest, DisjTwoMatchingSuccess) {
   EXPECT_EQ("1", terms[0]->value());
   EXPECT_EQ("2", terms[2]->value());
 }
-
+/*
 TEST_F(ParserTest, MatchingSuccess) {
   Scanner scanner("X=1; X=2, Y=s(s(X)).");
   Parser parser(scanner);

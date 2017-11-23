@@ -15,10 +15,14 @@ public:
 
   bool evaluate(){
     if(payload == SEMICOLON){
-      return left->evaluate()==true||right->evaluate()==true;
+      bool lEva=left->evaluate();
+      bool rEva=right->evaluate();
+      return lEva||rEva;
     }
     if(payload == COMMA){
-      return left->evaluate()==true&&right->evaluate()==true;
+      bool lEva=left->evaluate();
+      bool rEva=right->evaluate();
+      return lEva&&rEva;
     }
     if(payload == EQUALITY){
       return left->term->match(*(right->term));
