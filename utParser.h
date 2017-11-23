@@ -5,6 +5,7 @@
 
 #include "parser.h"
 #include "scanner.h"
+#include "node.h"
 
 class ParserTest : public ::testing::Test {
 protected:
@@ -196,7 +197,7 @@ TEST_F(ParserTest, createTerm_ListAsStruct2) {
   EXPECT_EQ(".(1, [])", s->symbol());
 }
 
-/*TEST_F(ParserTest, OneMatching) {
+TEST_F(ParserTest, OneMatching) {
   Scanner scanner("X=1.");
   Parser parser(scanner);
   parser.matchings();
@@ -286,14 +287,16 @@ TEST_F(ParserTest, TwoVariableMatching2) {
   EXPECT_EQ("Y", terms[3]->symbol());
   EXPECT_EQ("X", symtable[0].first);
   EXPECT_EQ("Y", symtable[1].first);
-
+  cout<<"TwoVariableMatching2 cout 1\n";
   Node * et = parser.expressionTree();
   EXPECT_TRUE(et->evaluate());
-
+  cout<<"TwoVariableMatching2 cout 2\n";
+  cout<<terms[0]->symbol()<<"\n";
   EXPECT_EQ("1", terms[0]->value());
   EXPECT_EQ("1", terms[2]->value());
 }
 
+/*
 TEST_F(ParserTest, TwoVariableMatching3) {
   Scanner scanner("X=Y, X=1.");
   Parser parser(scanner);
@@ -372,8 +375,8 @@ TEST_F(ParserTest, TwoVariableMatching4) {
   EXPECT_EQ("s(1)", terms[1]->value());
   EXPECT_EQ("Y", terms[2]->symbol());
   EXPECT_EQ("1", terms[2]->value());
-}
-
+}*/
+/*
 TEST_F(ParserTest, ConjTwoMatchingFailure) {
   Scanner scanner("X=1, X=2.");
   Parser parser(scanner);

@@ -2,6 +2,7 @@
 #define PARSER_H
 
 #include <string>
+#include <iostream>
 
 #include "term.h"
 #include "atom.h"
@@ -11,10 +12,11 @@
 #include "list.h"
 #include "global.h"
 #include "scanner.h"
-
+#include "node.h"
 
 using std::string;
 
+using std::cout;
 //#include "utParser.h"
 
 class Parser{
@@ -42,8 +44,6 @@ public:
 
     return nullptr;
   }
-
-
 
   Term * structure() {
     Atom structName = Atom(symtable[_scanner.tokenValue()].first);
@@ -77,6 +77,47 @@ public:
     return _terms;
   }
 
+  void matchings(){
+    Node *subTree;
+    Term* term = createTerm();
+    if(term!=nullptr)
+    {
+      _terms.push_back(term);
+      while((_currentToken = _scanner.nextToken()) == ','||(_currentToken  == ';')||(_currentToken  == '=')){
+        Operators op;
+        if(_currentToken  == ';'){
+          op = SEMICOLON;
+        }
+        else if(_currentToken  == ','){
+          Node *l = subTree;
+          matchings();
+          Node *r = _parseTree;
+          
+          Node *parseTree = new Node(COMMA);
+          parseTree->left = l;
+          parseTree->right = r;
+          subTree = parseTree;
+        }
+        else if(_currentToken == '='){
+          Node *l = new Node(TERM);
+          l->term = _terms.back();
+          _terms.push_back(createTerm());
+          Node *r = new Node(TERM);
+          r->term = _terms.back();
+          Node *parseTree = new Node(EQUALITY);
+          parseTree->left = l;
+          parseTree->right = r;
+          subTree = parseTree;
+        }
+      }
+    }
+    _parseTree = subTree;
+  }
+
+  Node *expressionTree(){
+    return _parseTree;
+  }
+
 private:
   FRIEND_TEST(ParserTest, createArgs);
   FRIEND_TEST(ParserTest,ListOfTermsEmpty);
@@ -88,7 +129,7 @@ private:
     if(term!=nullptr)
     {
       _terms.push_back(term);
-      while((_currentToken = _scanner.nextToken()) == ',') {
+      while((_currentToken = _scanner.nextToken()) == ','||(_currentToken  == '=')){
         _terms.push_back(createTerm());
       }
     }
@@ -97,5 +138,6 @@ private:
   vector<Term *> _terms;
   Scanner _scanner;
   int _currentToken;
+  Node *_parseTree;
 };
 #endif
