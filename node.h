@@ -15,16 +15,21 @@ public:
 
   bool evaluate(){
     if(payload == SEMICOLON){
+      cout<<payload<<"\t eva root SEMI\n";
       bool lEva=left->evaluate();
       bool rEva=right->evaluate();
       return lEva||rEva;
     }
     if(payload == COMMA){
+      cout<<payload<<"\t eva root COM\n";
       bool lEva=left->evaluate();
       bool rEva=right->evaluate();
       return lEva&&rEva;
     }
     if(payload == EQUALITY){
+      cout<<payload<<"\t eva root EQ\n";
+      cout<<left->term->symbol()<<"\t eva left EQ\n";
+      cout<<right->term->symbol()<<"\t eva right EQ\n";
       return left->term->match(*(right->term));
     }
     //fix here

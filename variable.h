@@ -35,8 +35,16 @@ public:
         if (ps){
             if (ps->assignable() && assignable()){
                 cout<<"VARMATCH_1\n";
-                ps->setValuePtr(this);
-                setValuePtr(ps);
+                if(ps->_ptrValue!=ps){
+                    _ptrValue = ps->_ptrValue;
+                }
+                else if(_ptrValue!=this){
+                    ps->_ptrValue = _ptrValue;
+                }
+                else{
+                    ps->setValuePtr(this);
+                    setValuePtr(ps);
+                }
                 return true;
             }
             else if (!ps->assignable() && !assignable()){ //pending
@@ -61,17 +69,22 @@ public:
     else{ //variable match other*/
         if (assignable())
         {
+            cout<<"VARMATCH_5\n";
 			List *ps = dynamic_cast<List *>(&term);
 			if(ps){
+                cout<<"VARMATCH_6\n";
 				for(int i=0; i<ps->esize();++i){
 					if(ps->element(i)==value()){
 						return false;
 					}
 				}
-		}
+		    }
             setAssignableToFalse();
+            cout<<term.symbol()<<"\tVARMATCH\n";
+            cout<<term.value()<<"\tVARMATCH\n";
             setValue(term.value());
-            _ptrValue = &term;
+            setValuePtr(&term);
+            cout<<"VARMATCH_7\n";
             return true;
         }
         //need a fix to match term
@@ -92,10 +105,11 @@ public:
   bool assignable(){ return _assignable; }
   void setAssignableToFalse(){ _assignable = false; }
   bool isVar(){ return true; };
+  Term *_ptrValue=this;
 private:
   string const _symbol;
   string _value;
-  Term *_ptrValue=this;
+  
   bool _assignable = true;
 };
 

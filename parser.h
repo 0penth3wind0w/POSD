@@ -115,6 +115,7 @@ public:
                     cout<<ps->symbol()<<"\t"<<ps2->symbol()<<"\ttwo_symbol\n";
                     cout<<"parseHere5\n";
                     _terms[i]->match(*_terms[j]);
+                    //_terms[j]=_terms[i];
                     cout<<"parseHere6\n";
                   }
                 }
@@ -135,9 +136,12 @@ public:
         }
       }
     }
+    if(symtable.back().first == "."){
+      symtable.pop_back();
+    }
     _parseTree = subTree;
   }
-
+  
   Node *expressionTree(){
     return _parseTree;
   }
