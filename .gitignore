@@ -33,3 +33,5 @@
 *.out
 *.app
 ut*[!.h]
+hw*[!.h]
+hw*[!.cpp]
