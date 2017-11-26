@@ -2,12 +2,13 @@
 #define STRUCT_H
 
 #include <vector>
+#include <iostream>
 
 #include <string>
 #include "term.h"
 #include "atom.h"
-#include "variable.h"
 
+using std::cout;
 using std::string;
 
 class Struct : public Term{
@@ -36,9 +37,12 @@ public:
   }
 
   string value() const {
+    cout<<"struct value\n";
     string ret =_name.value() + "(";
+    cout<<_args.size();
     for(int i = 0; i < _args.size() - 1 ; i++){
-      ret += _args[0]-> value() + ", ";
+      cout<<"in\n";
+      ret += _args[i]-> value() + ", ";
     }
     ret += _args[_args.size()-1]-> value() + ")";
     return  ret;

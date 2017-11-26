@@ -13,18 +13,18 @@ public:
   Node(Operators op):payload(op), term(0), left(0), right(0) {}
   Node(Operators op, Term *t, Node *l, Node *r):payload(op), term(t), left(l), right(r) {}
 
-  bool evaluate(){
+  bool evaluate() {
     if(payload == SEMICOLON){
       cout<<payload<<"\t eva root SEMI\n";
-      bool lEva=left->evaluate();
-      bool rEva=right->evaluate();
-      return lEva||rEva;
+      bool lEva = left->evaluate();
+      bool rEva = right->evaluate();
+      return (lEva||rEva);
     }
     if(payload == COMMA){
       cout<<payload<<"\t eva root COM\n";
-      bool lEva=left->evaluate();
-      bool rEva=right->evaluate();
-      return lEva&&rEva;
+      bool lEva = left->evaluate();
+      bool rEva = right->evaluate();
+      return (lEva&&rEva);
     }
     if(payload == EQUALITY){
       cout<<payload<<"\t eva root EQ\n";
@@ -38,12 +38,9 @@ public:
   }
 
   Operators payload;
-  Term *term;
-  Node *left;
-  Node *right;
-
-private:
-  
+  Term * term;
+  Node * left;
+  Node * right;
 };
 
 #endif

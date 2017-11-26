@@ -40,6 +40,7 @@ public:
                 }
                 else if(_ptrValue!=this){
                     ps->_ptrValue = _ptrValue;
+                    _ptrValue = ps;
                 }
                 else{
                     ps->setValuePtr(this);
@@ -79,9 +80,11 @@ public:
 					}
 				}
 		    }
+            cout<<"VARMATCH_7\n";
             setAssignableToFalse();
-            cout<<term.symbol()<<"\tVARMATCH\n";
-            cout<<term.value()<<"\tVARMATCH\n";
+            cout<<term.symbol()<<"\t symbol\tVARMATCH\n";
+            //cout<<term.value()<<"\tVARMATCH\n";
+            cout<<"VARMATCH_7\n";
             setValue(term.value());
             setValuePtr(&term);
             cout<<"VARMATCH_7\n";

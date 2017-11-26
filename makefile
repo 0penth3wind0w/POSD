@@ -8,7 +8,7 @@ ifeq (${OS}, Windows_NT)
 else
 		g++ -o hw6 mainHw.o -lgtest -lpthread
 endif
-mainHw.o: mainHw.cpp utParser.h
+mainHw.o: mainHw.cpp utParser.h term.h atom.h number.h variable.h struct.h list.h node.h
 		g++ -std=gnu++0x -c mainHw.cpp
 
 utAtom: mainAtom.o
