@@ -26,7 +26,10 @@ public:
     }else if(token == ATOM || token == ATOMSC){
       Atom* atom = new Atom(symtable[_scanner.tokenValue()].first);
       if(_scanner.currentChar() == '(' ) {
-        return structure();
+        Term *returnStruct = structure();
+        // cout<<_terms[]->symbol()<<"\tcreate\n";
+        // cout<<returnStruct->symbol()<<"\tcreate\n";
+        return returnStruct;
       }
       else
         return atom;
@@ -45,27 +48,43 @@ public:
     int startIndexOfStructArgs = _terms.size();
     _scanner.nextToken();
     createTerms();
+    Struct *outputStruct;
     if(_currentToken == ')')
     {
       vector<Term *> args(_terms.begin() + startIndexOfStructArgs, _terms.end());
       _terms.erase(_terms.begin() + startIndexOfStructArgs, _terms.end());
-      return new Struct(structName, args);
+      // for(int i = 0; i < args.size(); i++){
+      //   cout<<i<<"\n";
+      //   Variable* ps = dynamic_cast<Variable*>(args[i]);
+      //   if(ps){
+      //     cout<<"loop";
+      //     for(int idx = _startIndex; idx < _terms.size(); idx++){
+      //         if(ps->symbol() == _terms[idx]->symbol()) _terms[idx]->match(*ps);
+      //     }
+      //   }
+      //   args.push_back(args[i]);
+      //   getchar();
+      // }
+      outputStruct = new Struct(structName, args);
     } else {
       throw string("unexpected token");
     }
+    return outputStruct;
   }
 
   Term * list() {
     int startIndexOfListArgs = _terms.size();
     createTerms();
+    List *outputList;
     if(_currentToken == ']')
     {
       vector<Term *> args(_terms.begin() + startIndexOfListArgs, _terms.end());
       _terms.erase(_terms.begin() + startIndexOfListArgs, _terms.end());
-      return new List(args);
+      outputList = new List(args);
     } else {
       throw string("unexpected token");
     }
+    return outputList;
   }
 
   vector<Term *> & getTerms() {
@@ -76,14 +95,19 @@ public:
     Term* term = createTerm();
     if(term!=nullptr)
     { 
-      if(isCOMMA==1){
+      if(_isCOMMA==1){
         Term * findTerm = find(term);
         if(findTerm != nullptr) term->match(*findTerm);
+
+        for(int i = 0; i < _terms.size()-1; i++){
+          cout<<_terms[i]->symbol()<<"\tmatching \n";
+          getchar();
+        }
       }
       _terms.push_back(term);
       while((_currentToken = _scanner.nextToken()) == ',' ||  _currentToken=='='|| _currentToken == ';') {
         if (_currentToken == '=') {
-          isCOMMA = 0;
+          _isCOMMA = 0;
           Node * left = new Node(TERM, _terms.back(), nullptr, nullptr);
           _terms.push_back(createTerm());          
           Node * right = new Node(TERM, _terms.back(), nullptr, nullptr);
@@ -91,7 +115,7 @@ public:
           _expressionTree = root;
         }
         else if(_currentToken == ','){
-          isCOMMA = 1;
+          _isCOMMA = 1;
           Node * left = _expressionTree;
           matchings();
           Node * root = new Node(COMMA, nullptr, left, expressionTree());
@@ -99,18 +123,46 @@ public:
           
         }
         else if(_currentToken == ';'){
-          isCOMMA = 0;
+          // for(int i = _startIndex; i < _terms.size(); i++){
+          //   Struct * s = dynamic_cast<Struct*>(_terms[i]);
+          //   if(s){
+          //     cout<<s->symbol()<<"inininiin\n";
+          //   }
+          //   cout<<_terms[i]->symbol()<<"\tmatching SEMI\n";
+          //   getchar();
+          // }
+
+          _isCOMMA = 0;
           Node * left = _expressionTree;
+          _startIndex = _terms.size();
+          cout<<"pause\n";
           matchings();
           Node * root = new Node(SEMICOLON, nullptr, left, expressionTree());
           _expressionTree = root;
+          for(int i = _startIndex; i < _terms.size(); i++){
+            cout<<"in1"<<endl;
+            Struct * s = dynamic_cast<Struct*>(_terms[i]);
+            if(s){
+              for(int j = _startIndex; j < _terms.size(); j++){
+                cout<<"in2"<<endl;
+                Variable * v = dynamic_cast<Variable*>(_terms[j]);
+                if(v){
+                  // Term * findTerm = find(v);
+                  // if(findTerm != nullptr ) s->match(*findTerm);
+                }
+              }
+              cout<<s->symbol()<<"inininiin\n";
+            }
+            cout<<_terms[i]->symbol()<<"\tmatching SEMI\n";
+            getchar();
+          }
         }
       }
     }
   }
 
   Term * find(Term * term){
-    for(int index = 0; index < _terms.size() ; index++){
+    for(int index = _startIndex; index < _terms.size() ; index++){
       if(_terms[index]->symbol() == term->symbol()) return _terms[index];
       Struct * s = dynamic_cast<Struct*>(_terms[index]);
       if(s) {
@@ -129,7 +181,6 @@ public:
       }
     }
   }
-
 
   Node * expressionTree(){
     return _expressionTree;
@@ -166,6 +217,7 @@ private:
   Scanner _scanner;
   int _currentToken;
   Node * _expressionTree;
-  int isCOMMA = 0;
+  int _isCOMMA = 0;
+  int _startIndex = 0;
 };
 #endif
