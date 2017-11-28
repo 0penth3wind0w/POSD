@@ -1,71 +1,79 @@
 #ifndef STRUCT_H
 #define STRUCT_H
 
-#include <vector>
-#include <iostream>
-
-#include <string>
-#include "term.h"
 #include "atom.h"
+#include "term.h"
+#include <vector>
+#include <string>
 
-using std::cout;
 using std::string;
 
-class Struct : public Term{
+class Struct : public Term
+{
 public:
-  Struct(Atom const & name, std::vector<Term *> args):_name(name), _args(args) { }
+  Struct(Atom name) : _name(name)
+  {
+  }
 
-  Term * args(int index) {
+  Struct(Atom name, std::vector<Term *> args) : _name(name)
+  {
+    _args = args;
+  }
+
+  Term *args(int index)
+  {
     return _args[index];
   }
 
-  Atom const & name() {
-    return _name;
+  int arity()
+  {
+    return _args.size();
   }
 
-  string symbol() const {
-    string ret =_name.symbol() + "(";
-    if(_args.size() == 0){
+  Atom &name()
+  {
+    return _name;
+  }
+  string symbol() const
+  {
+    string ret = _name.symbol() + "(";
+    std::vector<Term *>::const_iterator it = _args.begin();
+    if (_args.empty())
+    {
       ret += ")";
       return ret;
     }
-    for(int i = 0; i < _args.size() - 1 ; i++){
-      ret += _args[i]-> symbol() + ", ";
-    }
-    ret += _args[_args.size()-1]-> symbol() + ")";
-    return  ret;
-  }
 
-  string value() const {
-    cout<<"struct value\n";
-    string ret =_name.value() + "(";
-    cout<<_args.size();
-    for(int i = 0; i < _args.size() - 1 ; i++){
-      cout<<"in\n";
-      ret += _args[i]-> value() + ", ";
-    }
-    ret += _args[_args.size()-1]-> value() + ")";
-    return  ret;
+    for (; it != _args.end() - 1; ++it)
+      ret += (*it)->symbol() + ", ";
+    ret += (*it)->symbol() + ")";
+    return ret;
   }
-  bool match(Term &term){
-    Struct * ps = dynamic_cast<Struct *>(&term);
-    if (ps){
-      if (!_name.match(ps->_name))
-        return false;
-      if(_args.size()!= ps->_args.size())
-        return false;
-      for(int i=0;i<_args.size();i++){
-        if(_args[i]->symbol() != ps->_args[i]->symbol())
-            return false;
-      }
-      return true;
+  string value() const
+  {
+    string ret = _name.symbol() + "(";
+    std::vector<Term *>::const_iterator it = _args.begin();
+    if (_args.empty())
+    {
+      ret += ")";
+      return ret;
     }
-    return false;
-  }
 
-  int arity(){
-    return _args.size();
+    for (; it != _args.end() - 1; ++it)
+      ret += (*it)->value() + ", ";
+    ret += (*it)->value() + ")";
+    return ret;
   }
+  bool match(Term &a)
+  {
+    if (a.isList)
+    {
+      return false;
+    }
+  }
+  //bool isList = false;
+  bool isStruct = true;
+
 private:
   Atom _name;
   std::vector<Term *> _args;

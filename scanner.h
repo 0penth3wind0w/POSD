@@ -1,11 +1,11 @@
 #ifndef SCANNER_H
 #define SCANNER_H
 
-#include <string>
-#include <vector>
-
 #include "global.h"
 
+
+#include <string>
+#include <vector>
 using std::string;
 using std::vector;
 
@@ -20,7 +20,7 @@ public:
       else if (isdigit(currentChar())) {
         _tokenValue = extractNumber();
         return NUMBER;
-      } else if (islower(currentChar())) {
+      }  else if (islower(currentChar())) {
         string s = extractAtom();
         processToken<ATOM>(s);
         return ATOM;
@@ -32,7 +32,7 @@ public:
         string s = extractVar();
         processToken<VAR>(s);
         return VAR;
-      }else {
+      } else {
         _tokenValue = NONE;
         return extractChar();
       }

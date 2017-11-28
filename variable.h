@@ -1,119 +1,81 @@
 #ifndef VARIABLE_H
 #define VARIABLE_H
 
-#include <iostream>
 #include <string>
+#include <iostream>
+#include "atom.h"
 #include "term.h"
-#include "list.h"
-
-using std::cout;
 using std::string;
+using std::cout;
 
-class Variable : public Term{
+class Variable : public Term
+{
 public:
-  Variable(string s):_symbol(s),_value(s){}
-  string value() const {
-    if (_ptrValue == this){
-        return symbol();
+  Variable(string s) : Term(s), _inst(0){
+    isVar = true;
+  }
+  string value() const{
+    if (_inst)
+      return _inst->value();
+    else
+      return Term::value();
+  }
+  bool match(Term &term){
+    cout<<"var match\t"<<symbol()<<"\t"<<value()<<"\n";
+    cout<<"var match\t"<<term.value()<<"\n";
+    if (term.isList == true){
+      for (int i = 0; i < term.size(); i++){
+        if (term.count(i).symbol() == _symbol){
+          return false;
+        }
+      }
+      if (!_inst){
+        _inst = &term;
+        return true;
+      }
+      return _inst->match(term);
     }
-    else{   
-        return _ptrValue->value();
+
+    if (this == &term){
+      return true;
     }
-  };
-  string valuePtr() const {
-    if (!_ptrValue){
-        return symbol();
+    if (!_inst){
+      cout<<"VARMATCH_2ND\n";
+      cout<<term.value();
+      _inst = &term;
+      return true;
     }
     else{
-        return _ptrValue->value();
-    }
-  }
-  string symbol() const { return _symbol; }
-  bool match(Term & term) {
-    if (term.isVar()){ //variable match variable
-        Variable *ps = dynamic_cast<Variable *>(&term);
-        if (ps){
-            if (ps->assignable() && assignable()){
-                cout<<"VARMATCH_1\n";
-                if(ps->_ptrValue!=ps){
-                    _ptrValue = ps->_ptrValue;
-                }
-                else if(_ptrValue!=this){
-                    ps->_ptrValue = _ptrValue;
-                    _ptrValue = ps;
-                }
-                else{
-                    ps->setValuePtr(this);
-                    setValuePtr(ps);
-                }
-                return true;
-            }
-            else if (!ps->assignable() && !assignable()){ //pending
-                cout<<"VARMATCH_2\n";
-                return false;
-            }
-            else if (ps->assignable()){ //pending
-                cout<<"VARMATCH_3\n";
-                ps->setAssignableToFalse();
-                ps->setValuePtr(this);
-                return true;
-            }
-            else{ //pending
-                cout<<"VARMATCH_4\n";
-                setAssignableToFalse();
-                setValuePtr(ps);
-                return true;
-            }
+      cout<<"VARMATCH_END\n";
+      Variable *ps = dynamic_cast<Variable*>(&term);
+      if(ps){
+        if(ps->assignable()){
+          ps->setValue(_inst);
+          return true;
         }
-        return false;
-    }
-    else{ //variable match other*/
-        if (assignable())
-        {
-            cout<<"VARMATCH_5\n";
-			List *ps = dynamic_cast<List *>(&term);
-			if(ps){
-                cout<<"VARMATCH_6\n";
-				for(int i=0; i<ps->esize();++i){
-					if(ps->element(i)==value()){
-						return false;
-					}
-				}
-		    }
-            cout<<"VARMATCH_7\n";
-            setAssignableToFalse();
-            cout<<term.symbol()<<"\t symbol\tVARMATCH\n";
-            //cout<<term.value()<<"\tVARMATCH\n";
-            cout<<"VARMATCH_7\n";
-            setValue(term.value());
-            setValuePtr(&term);
-            cout<<"VARMATCH_7\n";
-            return true;
-        }
-        //need a fix to match term
         else{
-            if (_ptrValue->value() == term.value())
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+          _inst->match(*ps);
         }
-  	}
+      }
+      cout<<_inst->symbol()<<"\t"<<_inst->value()<<"\n";
+      return _inst->match(term);
+    }
   }
-  void setValue(string s) { _value = s; }
-  void setValuePtr(Term *t){ _ptrValue = t; }
-  bool assignable(){ return _assignable; }
-  void setAssignableToFalse(){ _assignable = false; }
-  bool isVar(){ return true; };
-  Term *_ptrValue=this;
+
+  void setValue(Term *term){
+    _inst = term;
+  }
+  bool assignable(){
+    if(!_inst){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  Term *_inst;
+
 private:
-  string const _symbol;
-  string _value;
-  
-  bool _assignable = true;
 };
 
 #endif
