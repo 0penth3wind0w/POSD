@@ -111,6 +111,7 @@ public:
           matchings();
           Node * root = new Node(SEMICOLON, nullptr, left, expressionTree());
           _expressionTree = root;
+          ///here
           for(int i = _startIndex; i < _terms.size(); i++){
             cout<<"in1"<<endl;
             Struct * s = dynamic_cast<Struct*>(_terms[i]);
