@@ -27,8 +27,6 @@ public:
       Atom* atom = new Atom(symtable[_scanner.tokenValue()].first);
       if(_scanner.currentChar() == '(' ) {
         Term *returnStruct = structure();
-        // cout<<_terms[]->symbol()<<"\tcreate\n";
-        // cout<<returnStruct->symbol()<<"\tcreate\n";
         return returnStruct;
       }
       else
@@ -53,18 +51,6 @@ public:
     {
       vector<Term *> args(_terms.begin() + startIndexOfStructArgs, _terms.end());
       _terms.erase(_terms.begin() + startIndexOfStructArgs, _terms.end());
-      // for(int i = 0; i < args.size(); i++){
-      //   cout<<i<<"\n";
-      //   Variable* ps = dynamic_cast<Variable*>(args[i]);
-      //   if(ps){
-      //     cout<<"loop";
-      //     for(int idx = _startIndex; idx < _terms.size(); idx++){
-      //         if(ps->symbol() == _terms[idx]->symbol()) _terms[idx]->match(*ps);
-      //     }
-      //   }
-      //   args.push_back(args[i]);
-      //   getchar();
-      // }
       outputStruct = new Struct(structName, args);
     } else {
       throw string("unexpected token");
@@ -98,11 +84,6 @@ public:
       if(_isCOMMA==1){
         Term * findTerm = find(term);
         if(findTerm != nullptr) term->match(*findTerm);
-
-        for(int i = 0; i < _terms.size()-1; i++){
-          cout<<_terms[i]->symbol()<<"\tmatching \n";
-          getchar();
-        }
       }
       _terms.push_back(term);
       while((_currentToken = _scanner.nextToken()) == ',' ||  _currentToken=='='|| _currentToken == ';') {
@@ -123,15 +104,6 @@ public:
           
         }
         else if(_currentToken == ';'){
-          // for(int i = _startIndex; i < _terms.size(); i++){
-          //   Struct * s = dynamic_cast<Struct*>(_terms[i]);
-          //   if(s){
-          //     cout<<s->symbol()<<"inininiin\n";
-          //   }
-          //   cout<<_terms[i]->symbol()<<"\tmatching SEMI\n";
-          //   getchar();
-          // }
-
           _isCOMMA = 0;
           Node * left = _expressionTree;
           _startIndex = _terms.size();
@@ -149,12 +121,23 @@ public:
                 if(v){
                   // Term * findTerm = find(v);
                   // if(findTerm != nullptr ) s->match(*findTerm);
+                  for(int i = 0; i < s->arity(); i++){
+                    cout<<s->arity()<<" arity\n";
+                    cout<<s->args(i)->value()<<" arity val\n";
+                    if(s->args(i)->value() != v->value()){
+                      cout<<"innnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n";
+                      Term *f = findStruct(s, v);
+                      if(f != nullptr ){
+                        cout<<"iiiiiiiiiiiiiiiiiiiiiiiiii\n";
+                        v->match(*f);
+                      }
+                    }
+                  }
                 }
               }
               cout<<s->symbol()<<"inininiin\n";
             }
             cout<<_terms[i]->symbol()<<"\tmatching SEMI\n";
-            getchar();
           }
         }
       }

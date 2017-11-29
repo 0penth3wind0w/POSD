@@ -2,6 +2,9 @@
 
 all: hw6
 
+run: clean hw6
+	./hw6
+
 hw6: mainHw.o
 ifeq (${OS}, Windows_NT)
 		g++ -o hw6 mainHw.o -lgtest
