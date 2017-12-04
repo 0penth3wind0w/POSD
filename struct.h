@@ -8,6 +8,9 @@
 
 using std::string;
 
+template <class T>
+class Iterator;
+
 class Struct : public Term
 {
 public:
@@ -71,8 +74,10 @@ public:
       return false;
     }
   }
-  //bool isList = false;
   bool isStruct = true;
+  Iterator <Term*> * createIterator();
+  // Iterator <Term*>* createDFSIterator();
+  // Iterator <Term*>* createBFSIterator();
 
 private:
   Atom _name;

@@ -4,8 +4,13 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+
+
 using std::string;
 using namespace std;
+
+template <class T>
+class Iterator;
 
 class Term
 {
@@ -25,6 +30,9 @@ public:
 
   virtual int size() { return 0; }
   virtual Term count(int &i) { return 0; }
+  virtual Iterator <Term*> * createIterator(){
+    return new NullIterator<Term*>(this);
+  }
 
 protected:
   Term() : _symbol("") {}

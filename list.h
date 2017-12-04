@@ -8,6 +8,9 @@
 #include <vector>
 using namespace std;
 
+template <class T>
+class Iterator;
+
 class List : public Term
 {
 public:
@@ -130,7 +133,17 @@ public:
   {
     return *_elements[i];
   }
+
+  Term * args(int index) {
+    return _elements[index];
+  }
+  int arity() const {return _elements.size();}
+
   vector<Term *> _elements;
+
+  Iterator<Term*> * createIterator();
+  Iterator<Term*> * createDFSIterator();
+  Iterator<Term*> * createBFSIterator();
 
 private:
 };

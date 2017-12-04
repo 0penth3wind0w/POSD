@@ -2,17 +2,22 @@
 
 all: run
 
-run: clean hw6
-	./hw6
+run: clean hw7
+	./hw7
 
-hw6: mainHw.o
+hw7: mainHw.o list.o struct.o
 ifeq (${OS}, Windows_NT)
-		g++ -o hw6 mainHw.o -lgtest
+		g++ -o hw7 mainHw.o list.o struct.o -lgtest
 else
-		g++ -o hw6 mainHw.o -lgtest -lpthread
+		g++ -o hw7 mainHw.o list.o struct.o -lgtest -lpthread
 endif
-mainHw.o: mainHw.cpp utParser.h term.h atom.h number.h variable.h struct.h list.h node.h
-		g++ -std=gnu++0x -c mainHw.cpp
+mainHw.o: mainHw.cpp utIterator.h term.h atom.h number.h variable.h struct.h list.h node.h iterator.h
+
+struct.o: struct.cpp struct.h iterator.h
+		g++ -std=gnu++0x -c struct.cpp
+
+list.o: list.cpp list.h
+		g++ -std=gnu++0x -c list.cpp struct.h
 
 utAtom: mainAtom.o
 ifeq (${OS}, Windows_NT)
@@ -86,6 +91,10 @@ endif
 mainParser.o: mainParser.cpp term.h atom.h number.h variable.h struct.h scanner.h parser.h utParser.h
 		g++ -std=c++11 -c mainParser.cpp
 
+utIterator: mainIterator.o list.o struct.o 
+	g++ -o utIterator mainIterator.o list.o struct.o  -lgtest -lpthread
+mainIterator.o: mainIterator.cpp utIterator.h
+	g++ -std=gnu++0x -c mainIterator.cpp
 
 clean:	
 ifeq (${OS}, Windows_NT)
