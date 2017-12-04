@@ -21,8 +21,6 @@ public:
       return Term::value();
   }
   bool match(Term &term){
-    cout<<"var match\t"<<symbol()<<"\t"<<value()<<"\n";
-    cout<<"var match\t"<<term.value()<<"\n";
     if (term.isList == true){
       for (int i = 0; i < term.size(); i++){
         if (term.count(i).symbol() == _symbol){
@@ -40,13 +38,10 @@ public:
       return true;
     }
     if (!_inst){
-      cout<<"VARMATCH_2ND\n";
-      cout<<term.value();
       _inst = &term;
       return true;
     }
     else{
-      cout<<"VARMATCH_END\n";
       Variable *ps = dynamic_cast<Variable*>(&term);
       if(ps){
         if(ps->assignable()){
@@ -57,7 +52,6 @@ public:
           _inst->match(*ps);
         }
       }
-      cout<<_inst->symbol()<<"\t"<<_inst->value()<<"\n";
       return _inst->match(term);
     }
   }

@@ -106,39 +106,47 @@ public:
         else if(_currentToken == ';'){
           _isCOMMA = 0;
           Node * left = _expressionTree;
-          _startIndex = _terms.size();
-          cout<<"pause\n";
-          matchings();
-          Node * root = new Node(SEMICOLON, nullptr, left, expressionTree());
-          _expressionTree = root;
-          ///here
+          //here to test left recursive match
           for(int i = _startIndex; i < _terms.size(); i++){
-            cout<<"in1"<<endl;
             Struct * s = dynamic_cast<Struct*>(_terms[i]);
             if(s){
               for(int j = _startIndex; j < _terms.size(); j++){
-                cout<<"in2"<<endl;
                 Variable * v = dynamic_cast<Variable*>(_terms[j]);
                 if(v){
-                  // Term * findTerm = find(v);
-                  // if(findTerm != nullptr ) s->match(*findTerm);
                   for(int i = 0; i < s->arity(); i++){
-                    cout<<s->arity()<<" arity\n";
-                    cout<<s->args(i)->value()<<" arity val\n";
                     if(s->args(i)->value() != v->value()){
-                      cout<<"innnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n";
                       Term *f = findStruct(s, v);
                       if(f != nullptr ){
-                        cout<<"iiiiiiiiiiiiiiiiiiiiiiiiii\n";
                         v->match(*f);
                       }
                     }
                   }
                 }
               }
-              cout<<s->symbol()<<"inininiin\n";
             }
-            cout<<_terms[i]->symbol()<<"\tmatching SEMI\n";
+          }
+          _startIndex = _terms.size();
+          matchings();
+          Node * root = new Node(SEMICOLON, nullptr, left, expressionTree());
+          _expressionTree = root;
+          //here to test left recursive match
+          for(int i = _startIndex; i < _terms.size(); i++){
+            Struct * s = dynamic_cast<Struct*>(_terms[i]);
+            if(s){
+              for(int j = _startIndex; j < _terms.size(); j++){
+                Variable * v = dynamic_cast<Variable*>(_terms[j]);
+                if(v){
+                  for(int i = 0; i < s->arity(); i++){
+                    if(s->args(i)->value() != v->value()){
+                      Term *f = findStruct(s, v);
+                      if(f != nullptr ){
+                        v->match(*f);
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

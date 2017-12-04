@@ -1,6 +1,6 @@
 #INC_DIR = include
 
-all: hw6
+all: run
 
 run: clean hw6
 	./hw6
