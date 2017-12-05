@@ -13,11 +13,14 @@ else
 endif
 mainHw.o: mainHw.cpp utIterator.h term.h atom.h number.h variable.h struct.h list.h node.h iterator.h
 
+term.o: term.cpp term.h iterator.h
+		g++ -std=gnu++0x -c term.cpp
+
 struct.o: struct.cpp struct.h iterator.h
 		g++ -std=gnu++0x -c struct.cpp
 
 list.o: list.cpp list.h
-		g++ -std=gnu++0x -c list.cpp struct.h
+		g++ -std=gnu++0x -c list.cpp
 
 utAtom: mainAtom.o
 ifeq (${OS}, Windows_NT)
@@ -91,8 +94,8 @@ endif
 mainParser.o: mainParser.cpp term.h atom.h number.h variable.h struct.h scanner.h parser.h utParser.h
 		g++ -std=c++11 -c mainParser.cpp
 
-utIterator: mainIterator.o list.o struct.o 
-	g++ -o utIterator mainIterator.o list.o struct.o  -lgtest -lpthread
+utIterator: mainIterator.o list.o struct.o  term.o
+	g++ -o utIterator mainIterator.o list.o struct.o term.o -lgtest -lpthread
 mainIterator.o: mainIterator.cpp utIterator.h
 	g++ -std=gnu++0x -c mainIterator.cpp
 

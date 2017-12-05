@@ -16,10 +16,10 @@ public:
 template <class T>
 class NullIterator :public Iterator<T> {
 public:
-  NullIterator(T *n){}
+  NullIterator(Term *n){}
   void first(){}
   void next(){}
-  T * currentItem() const{
+  Term * currentItem() const{
       return nullptr;
   }
   bool isDone() const{
@@ -57,7 +57,7 @@ public:
   void first() {
     _index = 0;
   }
-  T* currentItem() const {
+  Term* currentItem() const {
     return _list->args(_index);
   }
   bool isDone() const {
