@@ -95,6 +95,28 @@ TEST(iterator, NullIterator){
   ASSERT_TRUE(itTerm->isDone());
 }
 
-//TEST()
+TEST(iterator,struct_bfs){
 
+}
+TEST(iterator,struct_bfs2){
+
+}
+TEST(iterator,struct_dfs){
+
+}
+TEST(iterator,struct_dfs2){
+
+}
+TEST(iterator,list_bfs){
+
+}
+TEST(iterator,list_bfs2){
+
+}
+TEST(iterator,list_dfs){
+
+}
+TEST(iterator,list_dfs2){
+
+}
 #endif
