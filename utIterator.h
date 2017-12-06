@@ -95,26 +95,57 @@ TEST(iterator, NullIterator){
   ASSERT_TRUE(itTerm->isDone());
 }
 
+//combo1(bigMac(bun, beefPatty, shreddedLettuce, sauce, cheese, [pickleSlice, pickleSlice2], [onions1, onions2]), coke, [fries1, fries2])
 TEST(iterator,struct_bfs){
-
+  Atom bun("bun"), beefPatty("beefPatty"), shreddedLettuce("shreddedLettuce"), sauce("sauce"), cheese("cheese"), pickleSlice1("pickleSlice1"), pickleSlice2("pickleSlice2"), onions1("onions1"), onions2("onions2"), fries1("fries1"), fries2("fries2");
+  List pickleSlice({&pickleSlice1, &pickleSlice2});
+  List onions({&onions1,&onions2});
+  Struct bigMac(Atom("bigMac"), {&bun, &beefPatty, &shreddedLettuce, &sauce, &cheese, &pickleSlice, &onions});
+  Atom coke("coke");
+  List fries({&fries1, &fries2});
+  Struct combo1(Atom("Combo1"), {&bigMac, &coke,&fries});
 }
 TEST(iterator,struct_bfs2){
 
 }
-TEST(iterator,struct_dfs){
 
+//combo1(bigMac(bun, beefPatty, shreddedLettuce, sauce, cheese, [pickleSlice, pickleSlice2], [onions1, onions2]), coke, [fries1, fries2])
+TEST(iterator,struct_dfs){
+  Atom bun("bun"), beefPatty("beefPatty"), shreddedLettuce("shreddedLettuce"), sauce("sauce"), cheese("cheese"), pickleSlice1("pickleSlice1"), pickleSlice2("pickleSlice2"), onions1("onions1"), onions2("onions2"), fries1("fries1"), fries2("fries2");
+  List pickleSlice({&pickleSlice1, &pickleSlice2});
+  List onions({&onions1,&onions2});
+  Struct bigMac(Atom("bigMac"), {&bun, &beefPatty, &shreddedLettuce, &sauce, &cheese, &pickleSlice, &onions});
+  Atom coke("coke");
+  List fries({&fries1, &fries2});
+  Struct combo1(Atom("Combo1"), {&bigMac, &coke,&fries});
 }
 TEST(iterator,struct_dfs2){
 
 }
-TEST(iterator,list_bfs){
 
+//combo1(bigMac(bun, beefPatty, shreddedLettuce, sauce, cheese, [pickleSlice, pickleSlice2], [onions1, onions2]), coke, [fries1, fries2])
+TEST(iterator,list_bfs){
+  Atom bun("bun"), beefPatty("beefPatty"), shreddedLettuce("shreddedLettuce"), sauce("sauce"), cheese("cheese"), pickleSlice1("pickleSlice1"), pickleSlice2("pickleSlice2"), onions1("onions1"), onions2("onions2"), fries1("fries1"), fries2("fries2");
+  List pickleSlice({&pickleSlice1, &pickleSlice2});
+  List onions({&onions1,&onions2});
+  Struct bigMac(Atom("bigMac"), {&bun, &beefPatty, &shreddedLettuce, &sauce, &cheese, &pickleSlice, &onions});
+  Atom coke("coke");
+  List fries({&fries1, &fries2});
+  Struct combo1(Atom("Combo1"), {&bigMac, &coke,&fries});
 }
 TEST(iterator,list_bfs2){
 
 }
-TEST(iterator,list_dfs){
 
+//combo1(bigMac(bun, beefPatty, shreddedLettuce, sauce, cheese, [pickleSlice, pickleSlice2], [onions1, onions2]), coke, [fries1, fries2])
+TEST(iterator,list_dfs){
+  Atom bun("bun"), beefPatty("beefPatty"), shreddedLettuce("shreddedLettuce"), sauce("sauce"), cheese("cheese"), pickleSlice1("pickleSlice1"), pickleSlice2("pickleSlice2"), onions1("onions1"), onions2("onions2"), fries1("fries1"), fries2("fries2");
+  List pickleSlice({&pickleSlice1, &pickleSlice2});
+  List onions({&onions1,&onions2});
+  Struct bigMac(Atom("bigMac"), {&bun, &beefPatty, &shreddedLettuce, &sauce, &cheese, &pickleSlice, &onions});
+  Atom coke("coke");
+  List fries({&fries1, &fries2});
+  Struct combo1(Atom("Combo1"), {&bigMac, &coke,&fries});
 }
 TEST(iterator,list_dfs2){
 

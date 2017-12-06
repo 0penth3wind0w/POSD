@@ -7,10 +7,10 @@ Iterator<Term*> * List::createIterator(){
 
 Iterator<Term*> * List::createDFSIterator()
 {
-	
+	// return new ;
 }
 
 Iterator<Term*> * List::createBFSIterator()
 {
-	
+	// return new;
 }

@@ -53,6 +53,7 @@ private:
 template <class T>
 class ListIterator :public Iterator<T> {
 public:
+  friend class List;
   ListIterator(List *list): _index(0), _list(list) {}
   void first() {
     _index = 0;
@@ -70,4 +71,6 @@ private:
   int _index;
   List* _list;
 };
+
+
 #endif

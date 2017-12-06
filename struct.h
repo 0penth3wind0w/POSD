@@ -74,11 +74,12 @@ public:
       return false;
     }
   }
-  bool isStruct = true;
-  Iterator <Term*> * createIterator();
-  // Iterator <Term*>* createDFSIterator();
-  // Iterator <Term*>* createBFSIterator();
+  
+  Iterator<Term*> * createIterator();
+  Iterator<Term*> * createDFSIterator();
+  Iterator<Term*> * createBFSIterator();
 
+  bool isStruct = true;
 private:
   Atom _name;
   std::vector<Term *> _args;

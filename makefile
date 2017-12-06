@@ -16,7 +16,7 @@ mainHw.o: mainHw.cpp utIterator.h term.h atom.h number.h variable.h struct.h lis
 term.o: term.cpp term.h iterator.h
 		g++ -std=gnu++0x -c term.cpp
 
-struct.o: struct.cpp struct.h iterator.h
+struct.o: struct.cpp struct.h
 		g++ -std=gnu++0x -c struct.cpp
 
 list.o: list.cpp list.h
@@ -103,5 +103,5 @@ clean:
 ifeq (${OS}, Windows_NT)
 		del *.o *.exe
 else
-		rm -f *.o ut*[!.h] hw*
+		rm -f *.o *.gch ut*[!.h] hw*
 endif
