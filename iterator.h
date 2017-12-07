@@ -77,23 +77,20 @@ public:
   friend class Struct;
   friend class List;
   void first(){
-    //  _index = 0;
+    //pop all and restart
+    while(!_DFSStack.empty()){
+      _DFSStack.pop();
+    }
+    _DFSStack.push(_tptr->createIterator());
   }
   void next(){
+    cout<<isDone()<<"\n";
     if(!isDone()){
-      while(currentItem()->createIterator()->isDone()){
-        _DFSStack.top()->next();
-        if (_DFSStack.top()->isDone())
-        {
-          _DFSStack.pop();
-          if (!isDone()){
-            _DFSStack.top()->next();
-          }
-        }
+      cout<<_DFSStack.top()->currentItem()->symbol()<<" next\n";
+      if(_DFSStack.top()->isDone()){
+        _DFSStack.pop();
       }
-    }
-    else{
-      _DFSStack.push(currentItem()->createIterator());
+      _DFSStack.push(_DFSStack.top()->currentItem()->createIterator());
     }
   }
   Term* currentItem() const {

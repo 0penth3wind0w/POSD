@@ -2,8 +2,8 @@
 
 all: run
 
-run: clean hw7
-	./hw7
+run: clean utIterator
+	./utIterator
 
 hw7: mainHw.o list.o struct.o
 ifeq (${OS}, Windows_NT)

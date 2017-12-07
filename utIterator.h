@@ -107,16 +107,20 @@ TEST(iterator,struct_dfs){
   
   Iterator <Term*> *itDFSStruct = a.createDFSIterator();
   itDFSStruct->first();
-  
   EXPECT_EQ("1", itDFSStruct->currentItem()->symbol());
   EXPECT_FALSE(itDFSStruct->isDone());
   itDFSStruct->next();
+  cout<<"inTest4\n";
   EXPECT_EQ("2", itDFSStruct->currentItem()->symbol());
+  cout<<"inTest5\n";
   EXPECT_FALSE(itDFSStruct->isDone());
+  cout<<"inTest5\n";
   itDFSStruct->next();
+  cout<<"inTest6\n";
   EXPECT_EQ("b(tom, 3)", itDFSStruct->currentItem()->symbol());
   EXPECT_FALSE(itDFSStruct->isDone());
   itDFSStruct->next();
+  cout<<"inTest6\n";
   EXPECT_EQ("tom", itDFSStruct->currentItem()->symbol());
   EXPECT_FALSE(itDFSStruct->isDone());
   itDFSStruct->next();
