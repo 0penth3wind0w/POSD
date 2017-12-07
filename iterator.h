@@ -1,8 +1,15 @@
 #ifndef ITERATOR_H
 #define ITERATOR_H
 
+#include <iostream>
+#include <stack>
+#include <queue>
 #include "struct.h"
 #include "list.h"
+
+using std::cout;
+using std::stack;
+using std::queue;
 
 template <class T>
 class Iterator {
@@ -32,18 +39,14 @@ template <class T>
 class StructIterator :public Iterator<T> {
 public:
   friend class Struct;
-  void first() {
-    _index = 0;
-  }
+  void first(){_index = 0;}
   Term* currentItem() const {
     return _s->args(_index);
   }
   bool isDone() const {
     return _index >= _s->arity();
   }
-  void next() {
-    _index++;
-  }
+  void next(){_index++;}
 private:
   StructIterator(Struct *s): _index(0), _s(s) {}
   int _index;
@@ -54,23 +57,67 @@ template <class T>
 class ListIterator :public Iterator<T> {
 public:
   friend class List;
-  ListIterator(List *list): _index(0), _list(list) {}
-  void first() {
-    _index = 0;
-  }
+  void first(){_index = 0;}
   Term* currentItem() const {
     return _list->args(_index);
   }
   bool isDone() const {
     return _index >= _list->arity();
   }
-  void next() {
-    _index++;
-  }
+  void next(){_index++;}
 private:
+  ListIterator(List *list): _index(0), _list(list) {}
   int _index;
   List* _list;
 };
 
+template <class T>
+class DFSIterator : public Iterator<T>{
+public:
+  friend class Struct;
+  friend class List;
+  void first(){
+    //  _index = 0;
+  }
+  void next(){
+    if(!isDone()&&currentItem()->createIterator()->isDone()){
+      _DFSStack.top()->next();
+      if (_DFSStack.top()->isDone())
+      {
+        _DFSStack.pop();
+        if (!isDone()){
+          _DFSStack.top()->next();
+        }
+      }
+    }
+    else{
+      _DFSStack.push(currentItem()->createIterator());
+    }
+  }
+  Term* currentItem() const {
+    return _DFSStack.top()->currentItem();
+  }
+  bool isDone() const { return _DFSStack.empty();}
+private:
+  DFSIterator(T t):_tptr(t){
+    _DFSStack.push(_tptr->createIterator());
+    cout<<_tptr->symbol()<<"\tDFSIterator\n";
+  };
+  stack <Iterator<Term*> *> _DFSStack;
+  // int _index;
+  T _tptr;
+};
 
+// template <class T>
+// class BFSIterator : public Iterator<T>{
+// public:
+//   friend class Struct;
+//   friend class List;
+//   void first(){}
+//   void next(){}
+//   Term* currentItem(){}
+//   bool isDone(){}
+// private:
+//   queue <Iterator<Term*> *> _BFSQueue;
+// };
 #endif
