@@ -80,13 +80,15 @@ public:
     //  _index = 0;
   }
   void next(){
-    if(!isDone()&&currentItem()->createIterator()->isDone()){
-      _DFSStack.top()->next();
-      if (_DFSStack.top()->isDone())
-      {
-        _DFSStack.pop();
-        if (!isDone()){
-          _DFSStack.top()->next();
+    if(!isDone()){
+      while(currentItem()->createIterator()->isDone()){
+        _DFSStack.top()->next();
+        if (_DFSStack.top()->isDone())
+        {
+          _DFSStack.pop();
+          if (!isDone()){
+            _DFSStack.top()->next();
+          }
         }
       }
     }

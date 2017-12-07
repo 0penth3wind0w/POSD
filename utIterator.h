@@ -131,47 +131,47 @@ TEST(iterator,struct_dfs){
 }
 
 //a(X, [1, Y], b(tom), [2, jerry])
-TEST(iterator,struct_dfs2){
-  Atom tom("tom"), jerry("jerry");
-  Number one(1), two(2);
-  Variable X("X"), Y("Y");
-  Struct b(Atom("b"),{&tom});
-  List l1({&one, &Y}), l2({&two, &jerry});
-  Struct a(Atom("a"),{&X, &l1, &b, &l2});
+// TEST(iterator,struct_dfs2){
+//   Atom tom("tom"), jerry("jerry");
+//   Number one(1), two(2);
+//   Variable X("X"), Y("Y");
+//   Struct b(Atom("b"),{&tom});
+//   List l1({&one, &Y}), l2({&two, &jerry});
+//   Struct a(Atom("a"),{&X, &l1, &b, &l2});
 
-  Iterator <Term*> *itDFSStruct = a.createDFSIterator();
-  itDFSStruct->first();
+//   Iterator <Term*> *itDFSStruct = a.createDFSIterator();
+//   itDFSStruct->first();
   
-  EXPECT_EQ("X", itDFSStruct->currentItem()->symbol());
-  EXPECT_FALSE(itDFSStruct->isDone());
-  itDFSStruct->next();
-  EXPECT_EQ("[1, Y]", itDFSStruct->currentItem()->symbol());
-  EXPECT_FALSE(itDFSStruct->isDone());
-  itDFSStruct->next();
-  EXPECT_EQ("1", itDFSStruct->currentItem()->symbol());
-  EXPECT_FALSE(itDFSStruct->isDone());
-  itDFSStruct->next();
-  EXPECT_EQ("Y", itDFSStruct->currentItem()->symbol());
-  EXPECT_FALSE(itDFSStruct->isDone());
-  itDFSStruct->next();
-  EXPECT_EQ("b(tom)", itDFSStruct->currentItem()->symbol());
-  EXPECT_FALSE(itDFSStruct->isDone());
-  itDFSStruct->next();
-  EXPECT_EQ("tom", itDFSStruct->currentItem()->symbol());
-  EXPECT_FALSE(itDFSStruct->isDone());
-  itDFSStruct->next();
-  EXPECT_EQ("[2, jerry]", itDFSStruct->currentItem()->symbol());
-  EXPECT_FALSE(itDFSStruct->isDone());
-  itDFSStruct->next();
-  EXPECT_EQ("2", itDFSStruct->currentItem()->symbol());
-  EXPECT_FALSE(itDFSStruct->isDone());
-  itDFSStruct->next();
-  EXPECT_EQ("jerry", itDFSStruct->currentItem()->symbol());
-  EXPECT_FALSE(itDFSStruct->isDone());
-  itDFSStruct->next();
-  EXPECT_TRUE(itDFSStruct->isDone());
+//   EXPECT_EQ("X", itDFSStruct->currentItem()->symbol());
+//   EXPECT_FALSE(itDFSStruct->isDone());
+//   itDFSStruct->next();
+//   EXPECT_EQ("[1, Y]", itDFSStruct->currentItem()->symbol());
+//   EXPECT_FALSE(itDFSStruct->isDone());
+//   itDFSStruct->next();
+//   EXPECT_EQ("1", itDFSStruct->currentItem()->symbol());
+//   EXPECT_FALSE(itDFSStruct->isDone());
+//   itDFSStruct->next();
+//   EXPECT_EQ("Y", itDFSStruct->currentItem()->symbol());
+//   EXPECT_FALSE(itDFSStruct->isDone());
+//   itDFSStruct->next();
+//   EXPECT_EQ("b(tom)", itDFSStruct->currentItem()->symbol());
+//   EXPECT_FALSE(itDFSStruct->isDone());
+//   itDFSStruct->next();
+//   EXPECT_EQ("tom", itDFSStruct->currentItem()->symbol());
+//   EXPECT_FALSE(itDFSStruct->isDone());
+//   itDFSStruct->next();
+//   EXPECT_EQ("[2, jerry]", itDFSStruct->currentItem()->symbol());
+//   EXPECT_FALSE(itDFSStruct->isDone());
+//   itDFSStruct->next();
+//   EXPECT_EQ("2", itDFSStruct->currentItem()->symbol());
+//   EXPECT_FALSE(itDFSStruct->isDone());
+//   itDFSStruct->next();
+//   EXPECT_EQ("jerry", itDFSStruct->currentItem()->symbol());
+//   EXPECT_FALSE(itDFSStruct->isDone());
+//   itDFSStruct->next();
+//   EXPECT_TRUE(itDFSStruct->isDone());
 
-}
+// }
 
 //a(1, 2, b(tom, 3), jerry)
 // TEST(iterator,struct_bfs){
@@ -245,33 +245,33 @@ TEST(iterator,struct_dfs2){
 // }
 
 //[tom, [1, 2], jerry]
-TEST(iterator,list_dfs){
-  Atom tom("tom"), jerry("jerry");
-  Number one(1), two(2);
-  List num({&one, &two});
-  List combo({&tom, &num, &jerry});
+// TEST(iterator,list_dfs){
+//   Atom tom("tom"), jerry("jerry");
+//   Number one(1), two(2);
+//   List num({&one, &two});
+//   List combo({&tom, &num, &jerry});
   
-  Iterator <Term*> *itDFSList = combo.createDFSIterator();
-  itDFSList->first();
+//   Iterator <Term*> *itDFSList = combo.createDFSIterator();
+//   itDFSList->first();
   
-  EXPECT_EQ("tom", itDFSList->currentItem()->symbol());
-  EXPECT_FALSE(itDFSList->isDone());
-  itDFSList->next();
-  EXPECT_EQ("[1, 2]", itDFSList->currentItem()->symbol());
-  EXPECT_FALSE(itDFSList->isDone());
-  itDFSList->next();
-  EXPECT_EQ("1", itDFSList->currentItem()->symbol());
-  EXPECT_FALSE(itDFSList->isDone());
-  itDFSList->next();
-  EXPECT_EQ("2", itDFSList->currentItem()->symbol());
-  EXPECT_FALSE(itDFSList->isDone());
-  itDFSList->next();
-  EXPECT_EQ("jerry", itDFSList->currentItem()->symbol());
-  EXPECT_FALSE(itDFSList->isDone());
-  itDFSList->next();
-  EXPECT_TRUE(itDFSList->isDone());
+//   EXPECT_EQ("tom", itDFSList->currentItem()->symbol());
+//   EXPECT_FALSE(itDFSList->isDone());
+//   itDFSList->next();
+//   EXPECT_EQ("[1, 2]", itDFSList->currentItem()->symbol());
+//   EXPECT_FALSE(itDFSList->isDone());
+//   itDFSList->next();
+//   EXPECT_EQ("1", itDFSList->currentItem()->symbol());
+//   EXPECT_FALSE(itDFSList->isDone());
+//   itDFSList->next();
+//   EXPECT_EQ("2", itDFSList->currentItem()->symbol());
+//   EXPECT_FALSE(itDFSList->isDone());
+//   itDFSList->next();
+//   EXPECT_EQ("jerry", itDFSList->currentItem()->symbol());
+//   EXPECT_FALSE(itDFSList->isDone());
+//   itDFSList->next();
+//   EXPECT_TRUE(itDFSList->isDone());
 
-}
+// }
 
 // TEST(iterator,list_dfs2){
 
