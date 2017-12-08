@@ -86,11 +86,15 @@ public:
   void next(){
     cout<<isDone()<<"\n";
     if(!isDone()){
+      cout<<currentItem()->symbol()<<" next\n";
       cout<<_DFSStack.top()->currentItem()->symbol()<<" next\n";
-      if(_DFSStack.top()->isDone()){
-        _DFSStack.pop();
+      if(_DFSStack.top()->currentItem()->createIterator()->isDone()){
+        cout<<"tt\n";
+        _DFSStack.top()->next();
       }
-      _DFSStack.push(_DFSStack.top()->currentItem()->createIterator());
+      else{
+        _DFSStack.push(currentItem()->createIterator());
+      }
     }
   }
   Term* currentItem() const {

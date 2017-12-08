@@ -110,26 +110,32 @@ TEST(iterator,struct_dfs){
   EXPECT_EQ("1", itDFSStruct->currentItem()->symbol());
   EXPECT_FALSE(itDFSStruct->isDone());
   itDFSStruct->next();
-  cout<<"inTest4\n";
+  cout<<"inTest1\n";
   EXPECT_EQ("2", itDFSStruct->currentItem()->symbol());
-  cout<<"inTest5\n";
+  cout<<"inTest2\n";
   EXPECT_FALSE(itDFSStruct->isDone());
-  cout<<"inTest5\n";
+  cout<<"inTest3\n";
   itDFSStruct->next();
-  cout<<"inTest6\n";
+  cout<<"inTest4\n";
   EXPECT_EQ("b(tom, 3)", itDFSStruct->currentItem()->symbol());
   EXPECT_FALSE(itDFSStruct->isDone());
   itDFSStruct->next();
-  cout<<"inTest6\n";
+  cout<<"inTest5\n";
   EXPECT_EQ("tom", itDFSStruct->currentItem()->symbol());
   EXPECT_FALSE(itDFSStruct->isDone());
+  cout<<"inTest6\n";
   itDFSStruct->next();
   EXPECT_EQ("3", itDFSStruct->currentItem()->symbol());
   EXPECT_FALSE(itDFSStruct->isDone());
+  cout<<"inTest7\n";
   itDFSStruct->next();
+  cout<<"inTest8\n";
   EXPECT_EQ("jerry", itDFSStruct->currentItem()->symbol());
+  cout<<"inTest81\n";
   EXPECT_FALSE(itDFSStruct->isDone());
+  cout<<"inTest9\n";
   itDFSStruct->next();
+  cout<<"inTest10\n";
   EXPECT_TRUE(itDFSStruct->isDone());
   
 }
