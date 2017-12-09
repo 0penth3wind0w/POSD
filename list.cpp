@@ -12,5 +12,5 @@ Iterator<Term*> * List::createDFSIterator()
 
 Iterator<Term*> * List::createBFSIterator()
 {
-	// return new BFSIterator<Term*> (this);
+	return new BFSIterator<Term*> (this);
 }

@@ -23,7 +23,7 @@ public:
 template <class T>
 class NullIterator :public Iterator<T> {
 public:
-  NullIterator(Term *n){}
+  friend class Term;
   void first(){}
   void next(){}
   Term * currentItem() const{
@@ -32,7 +32,9 @@ public:
   bool isDone() const{
     return true;
   }
-
+private:
+  NullIterator(T t) : _term(t) {}
+  T _term;
 };
 
 template <class T>
@@ -77,20 +79,24 @@ public:
   friend class Struct;
   friend class List;
   void first(){
-    //pop all and restart
-    while(!_DFSStack.empty()){
-      _DFSStack.pop();
-    }
-    _DFSStack.push(_tptr->createIterator());
+    // _index = 0;
   }
   void next(){
-    cout<<isDone()<<"\n";
+    cout<<isDone()<<" isDone? 0\n";
     if(!isDone()){
-      cout<<currentItem()->symbol()<<" next\n";
-      cout<<_DFSStack.top()->currentItem()->symbol()<<" next\n";
+      
+      cout<<currentItem()->symbol()<<" current\n";
+      cout<<_DFSStack.top()->currentItem()->createIterator()->isDone()<<" current isDone?\n";
+      
       if(_DFSStack.top()->currentItem()->createIterator()->isDone()){
-        cout<<"tt\n";
         _DFSStack.top()->next();
+        while(!isDone() && _DFSStack.top()->isDone()){
+          _DFSStack.pop();
+          if(!isDone()){
+            _DFSStack.top()->next();
+          }
+          cout<<isDone()<<" isDone? 1\n";
+        }
       }
       else{
         _DFSStack.push(currentItem()->createIterator());
@@ -111,16 +117,34 @@ private:
   T _tptr;
 };
 
-// template <class T>
-// class BFSIterator : public Iterator<T>{
-// public:
-//   friend class Struct;
-//   friend class List;
-//   void first(){}
-//   void next(){}
-//   Term* currentItem(){}
-//   bool isDone(){}
-// private:
-//   queue <Iterator<Term*> *> _BFSQueue;
-// };
+template <class T>
+class BFSIterator : public Iterator<T>{
+public:
+  friend class Struct;
+  friend class List;
+  void first(){
+    // _index = 0;
+  }
+  void next(){
+    if(!isDone()){
+      if(!currentItem()->createIterator()->isDone()){
+        _BFSQueue.push(currentItem()->createIterator());
+      }
+      _BFSQueue.front()->next();
+      if(_BFSQueue.front()->isDone()){
+        _BFSQueue.pop();
+      }
+    }
+  }
+  Term* currentItem() const {
+    return _BFSQueue.front()->currentItem();
+  }
+  bool isDone() const { return _BFSQueue.empty();}
+private:
+  BFSIterator(T t):_tptr(t){
+    _BFSQueue.push(_tptr->createIterator());
+  };
+  queue <Iterator<Term*> *> _BFSQueue;
+  T _tptr;
+};
 #endif
