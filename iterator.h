@@ -1,13 +1,11 @@
 #ifndef ITERATOR_H
 #define ITERATOR_H
 
-#include <iostream>
 #include <stack>
 #include <queue>
 #include "struct.h"
 #include "list.h"
 
-using std::cout;
 using std::stack;
 using std::queue;
 
@@ -82,12 +80,7 @@ public:
     // _index = 0;
   }
   void next(){
-    cout<<isDone()<<" isDone? 0\n";
     if(!isDone()){
-      
-      cout<<currentItem()->symbol()<<" current\n";
-      cout<<_DFSStack.top()->currentItem()->createIterator()->isDone()<<" current isDone?\n";
-      
       if(_DFSStack.top()->currentItem()->createIterator()->isDone()){
         _DFSStack.top()->next();
         while(!isDone() && _DFSStack.top()->isDone()){
@@ -95,7 +88,6 @@ public:
           if(!isDone()){
             _DFSStack.top()->next();
           }
-          cout<<isDone()<<" isDone? 1\n";
         }
       }
       else{
@@ -110,7 +102,6 @@ public:
 private:
   DFSIterator(T t):_tptr(t){
     _DFSStack.push(_tptr->createIterator());
-    cout<<_tptr->symbol()<<"\tDFSIterator\n";
   };
   stack <Iterator<Term*> *> _DFSStack;
   // int _index;

@@ -1,16 +1,17 @@
 #INC_DIR = include
 
-all: run
+all: hw7
 
 run: clean utIterator
 	./utIterator
 
-hw7: mainHw.o list.o struct.o
+hw7: mainIterator.o list.o struct.o  term.o
 ifeq (${OS}, Windows_NT)
-		g++ -o hw7 mainHw.o list.o struct.o -lgtest
+		g++ -o hw7 mainIterator.o list.o struct.o term.o -lgtest
 else
-		g++ -o hw7 mainHw.o list.o struct.o -lgtest -lpthread
+		g++ -o hw7 mainIterator.o list.o struct.o term.o -lgtest -lpthread
 endif
+
 mainHw.o: mainHw.cpp utIterator.h term.h atom.h number.h variable.h struct.h list.h node.h iterator.h
 
 term.o: term.cpp term.h iterator.h
