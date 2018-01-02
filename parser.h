@@ -9,12 +9,14 @@ using std::string;
 #include "scanner.h"
 #include "struct.h"
 #include "list.h"
-#include "node.h"
-#include "utParser.h"
+#include "exp.h"
+#include <stack>
+
+using std::stack;
 
 class Parser{
 public:
-  Parser(Scanner scanner) : _scanner(scanner), _terms(){}
+  Parser(Scanner scanner) : _scanner(scanner), _terms() {}
 
   Term* createTerm(){
     int token = _scanner.nextToken();
@@ -26,8 +28,7 @@ public:
     }else if(token == ATOM || token == ATOMSC){
       Atom* atom = new Atom(symtable[_scanner.tokenValue()].first);
       if(_scanner.currentChar() == '(' ) {
-        Term *returnStruct = structure();
-        return returnStruct;
+        return structure();
       }
       else
         return atom;
@@ -46,136 +47,85 @@ public:
     int startIndexOfStructArgs = _terms.size();
     _scanner.nextToken();
     createTerms();
-    Struct *outputStruct;
     if(_currentToken == ')')
     {
       vector<Term *> args(_terms.begin() + startIndexOfStructArgs, _terms.end());
       _terms.erase(_terms.begin() + startIndexOfStructArgs, _terms.end());
-      outputStruct = new Struct(structName, args);
+      return new Struct(structName, args);
     } else {
       throw string("unexpected token");
     }
-    return outputStruct;
   }
 
   Term * list() {
     int startIndexOfListArgs = _terms.size();
     createTerms();
-    List *outputList;
     if(_currentToken == ']')
     {
       vector<Term *> args(_terms.begin() + startIndexOfListArgs, _terms.end());
       _terms.erase(_terms.begin() + startIndexOfListArgs, _terms.end());
-      outputList = new List(args);
+      if(args.size()==0){
+        return new Atom("[]");
+      }
+      return new List(args);
     } else {
       throw string("unexpected token");
     }
-    return outputList;
   }
 
   vector<Term *> & getTerms() {
     return _terms;
   }
 
-  void matchings(){
-    Term* term = createTerm();
-    if(term!=nullptr)
-    { 
-      if(_isCOMMA==1){
-        Term * findTerm = find(term);
-        if(findTerm != nullptr) term->match(*findTerm);
-      }
-      _terms.push_back(term);
-      while((_currentToken = _scanner.nextToken()) == ',' ||  _currentToken=='='|| _currentToken == ';') {
-        if (_currentToken == '=') {
-          _isCOMMA = 0;
-          Node * left = new Node(TERM, _terms.back(), nullptr, nullptr);
-          _terms.push_back(createTerm());          
-          Node * right = new Node(TERM, _terms.back(), nullptr, nullptr);
-          Node * root = new Node(EQUALITY, nullptr, left, right);
-          _expressionTree = root;
-        }
-        else if(_currentToken == ','){
-          _isCOMMA = 1;
-          Node * left = _expressionTree;
-          matchings();
-          Node * root = new Node(COMMA, nullptr, left, expressionTree());
-          _expressionTree = root;
-          
-        }
-        else if(_currentToken == ';'){
-          _isCOMMA = 0;
-          Node * left = _expressionTree;
-          //here to test left recursive match
-          for(int i = _startIndex; i < _terms.size(); i++){
-            Struct * s = dynamic_cast<Struct*>(_terms[i]);
-            if(s){
-              for(int j = _startIndex; j < _terms.size(); j++){
-                Variable * v = dynamic_cast<Variable*>(_terms[j]);
-                if(v){
-                  for(int i = 0; i < s->arity(); i++){
-                    if(s->args(i)->value() != v->value()){
-                      Term *f = findStruct(s, v);
-                      if(f != nullptr ){
-                        v->match(*f);
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-          _startIndex = _terms.size();
-          matchings();
-          Node * root = new Node(SEMICOLON, nullptr, left, expressionTree());
-          _expressionTree = root;
-          //here to test left recursive match
-          for(int i = _startIndex; i < _terms.size(); i++){
-            Struct * s = dynamic_cast<Struct*>(_terms[i]);
-            if(s){
-              for(int j = _startIndex; j < _terms.size(); j++){
-                Variable * v = dynamic_cast<Variable*>(_terms[j]);
-                if(v){
-                  for(int i = 0; i < s->arity(); i++){
-                    if(s->args(i)->value() != v->value()){
-                      Term *f = findStruct(s, v);
-                      if(f != nullptr ){
-                        v->match(*f);
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+  void buildExpression(){
+    // createTerm();
+    disjunctionMatch();
+    restDisjunctionMatch();
+    if (createTerm() != nullptr || _currentToken != '.')
+      throw string("expected token.");
+  }
+
+  void restDisjunctionMatch() {
+    if (_scanner.currentChar() == ';') {
+      createTerm();
+      disjunctionMatch();
+      Exp *right = _expStack.top();
+      _expStack.pop();
+      Exp *left = _expStack.top();
+      _expStack.pop();
+      _expStack.push(new DisjExp(left, right));
+      restDisjunctionMatch();
     }
   }
 
-  Term * find(Term * term){
-    for(int index = _startIndex; index < _terms.size() ; index++){
-      if(_terms[index]->symbol() == term->symbol()) return _terms[index];
-      Struct * s = dynamic_cast<Struct*>(_terms[index]);
-      if(s) {
-        return findStruct(s,term);
-      }
-    }
-    return nullptr;
+  void disjunctionMatch() {
+    conjunctionMatch();
+    restConjunctionMatch();
   }
 
-  Term * findStruct(Struct * s, Term * term){
-    for(int i = 0; i < s->arity() ; i++){
-      if(s->args(i)->symbol() == term->symbol()) return s->args(i);
-      Struct * ss = dynamic_cast<Struct*>(s->args(i));
-      if(ss) {
-        return findStruct(ss,term);
-      }
+  void restConjunctionMatch() {
+    if (_scanner.currentChar() == ',') {
+      createTerm();
+      conjunctionMatch();
+      Exp *right = _expStack.top();
+      _expStack.pop();
+      Exp *left = _expStack.top();
+      _expStack.pop();
+      _expStack.push(new ConjExp(left, right));
+      restConjunctionMatch();
     }
   }
 
-  Node * expressionTree(){
-    return _expressionTree;
+  void conjunctionMatch() {
+    Term * left = createTerm();
+    if (createTerm() == nullptr && _currentToken == '=') {
+      Term * right = createTerm();
+      _expStack.push(new MatchExp(left, right));
+    }
+  }
+
+  Exp* getExpressionTree(){
+    return _expStack.top();
   }
 
 private:
@@ -183,18 +133,9 @@ private:
   FRIEND_TEST(ParserTest,ListOfTermsEmpty);
   FRIEND_TEST(ParserTest,listofTermsTwoNumber);
   FRIEND_TEST(ParserTest, createTerm_nestedStruct3);
+  FRIEND_TEST(ParserTest, createTerms);
 
   void createTerms() {
-    Term* term = createTerm();
-    if(term!=nullptr)
-    {
-      _terms.push_back(term);
-      while((_currentToken = _scanner.nextToken()) == ',') {
-        _terms.push_back(createTerm());
-      }
-    }
-  }
-  void createStruct() {
     Term* term = createTerm();
     if(term!=nullptr)
     {
@@ -208,8 +149,7 @@ private:
   vector<Term *> _terms;
   Scanner _scanner;
   int _currentToken;
-  Node * _expressionTree;
-  int _isCOMMA = 0;
-  int _startIndex = 0;
+  //MatchExp* _root;
+  stack<Exp*> _expStack;
 };
 #endif

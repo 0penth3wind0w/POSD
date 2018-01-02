@@ -100,6 +100,11 @@ utIterator: mainIterator.o list.o struct.o  term.o
 mainIterator.o: mainIterator.cpp utIterator.h
 	g++ -std=gnu++0x -c mainIterator.cpp
 
+utExp: mainExp.o term.o struct.o list.o
+	g++ -o utExp mainExp.o term.o struct.o list.o -lgtest -lpthread
+mainExp.o: mainExp.cpp utExp.h
+	g++ -std=gnu++0x -c mainExp.cpp
+
 clean:	
 ifeq (${OS}, Windows_NT)
 		del *.o *.exe
