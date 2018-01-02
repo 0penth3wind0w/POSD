@@ -23,20 +23,29 @@ struct.o: struct.cpp struct.h
 list.o: list.cpp list.h
 		g++ -std=gnu++0x -c list.cpp
 
-utAtom: mainAtom.o
+utTerm: mainTerm.o term.o
 ifeq (${OS}, Windows_NT)
-		g++ -o utAtom mainAtom.o -lgtest
+		g++ -o utTerm mainTerm.o term.o -lgtest
 else
-		g++ -o utAtom mainAtom.o -lgtest -lpthread
+		g++ -o utTerm mainTerm.o term.o -lgtest -lpthread
+endif
+mainTerm.o: mainTerm.cpp utTerm.h
+		g++ -std=gnu++0x -c mainTerm.cpp
+
+utAtom: mainAtom.o term.o
+ifeq (${OS}, Windows_NT)
+		g++ -o utAtom mainAtom.o term.o -lgtest
+else
+		g++ -o utAtom mainAtom.o term.o -lgtest -lpthread
 endif
 mainAtom.o: mainAtom.cpp utAtom.h
 		g++ -std=gnu++0x -c mainAtom.cpp
 
-utVariable: mainVariable.o
+utVariable: mainVariable.o term.o struct.o
 ifeq (${OS}, Windows_NT)
-		g++ -o utVariable mainVariable.o -lgtest
+		g++ -o utVariable mainVariable.o term.o struct.o -lgtest
 else
-		g++ -o utVariable mainVariable.o -lgtest -lpthread
+		g++ -o utVariable mainVariable.o term.o struct.o -lgtest -lpthread
 endif
 mainVariable.o: mainVariable.cpp utVariable.h
 		g++ -std=gnu++0x -c mainVariable.cpp
@@ -50,29 +59,20 @@ endif
 mainNumber.o: mainNumber.cpp utNumber.h
 		g++ -std=gnu++0x -c mainNumber.cpp
 
-utTerm: mainTerm.o
+utStruct: mainStruct.o term.o struct.o
 ifeq (${OS}, Windows_NT)
-		g++ -o utTerm mainTerm.o -lgtest
+		g++ -o utStruct mainStruct.o term.o struct.o -lgtest
 else
-		g++ -o utTerm mainTerm.o -lgtest -lpthread
-endif
-mainTerm.o: mainTerm.cpp utTerm.h
-		g++ -std=gnu++0x -c mainTerm.cpp
-
-utStruct: mainStruct.o
-ifeq (${OS}, Windows_NT)
-		g++ -o utStruct mainStruct.o -lgtest
-else
-		g++ -o utStruct mainStruct.o -lgtest -lpthread
+		g++ -o utStruct mainStruct.o term.o struct.o -lgtest -lpthread
 endif
 mainStruct.o: mainStruct.cpp utStruct.h
 		g++ -std=gnu++0x -c mainStruct.cpp
 
-utList: mainList.o
+utList: mainList.o term.o struct.o list.o
 ifeq (${OS}, Windows_NT)
-		g++ -o utList mainList.o -lgtest
+		g++ -o utList mainList.o term.o struct.o list.o -lgtest
 else
-		g++ -o utList mainList.o -lgtest -lpthread
+		g++ -o utList mainList.o term.o struct.o list.o -lgtest -lpthread
 endif
 mainList.o: mainList.cpp utList.h
 		g++ -std=gnu++0x -c mainList.cpp
@@ -86,11 +86,11 @@ endif
 mainScanner.o: mainScanner.cpp utScanner.h
 		g++ -std=c++11 -c mainScanner.cpp
 
-utParser: mainParser.o
+utParser: mainParser.o term.o struct.o list.o
 ifeq (${OS}, Windows_NT)
-	g++ -o utParser mainParser.o -lgtest
+	g++ -o utParser mainParser.o term.o struct.o list.o -lgtest
 else	
-	g++ -o utParser mainParser.o -lgtest -lpthread
+	g++ -o utParser mainParser.o term.o struct.o list.o -lgtest -lpthread
 endif
 mainParser.o: mainParser.cpp term.h atom.h number.h variable.h struct.h scanner.h parser.h utParser.h
 		g++ -std=c++11 -c mainParser.cpp
