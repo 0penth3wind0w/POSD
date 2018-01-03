@@ -1,9 +1,11 @@
 #ifndef PARSER_H
 #define PARSER_H
+
 #include <string>
-using std::string;
+#include <iostream>
 
 #include "atom.h"
+#include "number.h"
 #include "variable.h"
 #include "global.h"
 #include "scanner.h"
@@ -12,7 +14,9 @@ using std::string;
 #include "exp.h"
 #include <stack>
 
+using std::string;
 using std::stack;
+using std::cout;
 
 class Parser{
 public:

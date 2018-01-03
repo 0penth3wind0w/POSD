@@ -1,10 +1,14 @@
 #ifndef UTEXP_H
 #define UTEXP_H
 
+#include <iostream>
+
 #include "atom.h"
 #include "variable.h"
 #include "exp.h"
 #include "parser.h"
+
+using namespace std;
 
 TEST(Exp, matchExp) {
   Atom tom("tom");
@@ -20,8 +24,11 @@ TEST(Exp, buildExp) {
   // MatchExp mExp(&tom, &X);
   Scanner s("tom=X.");
   Parser p(s);
+  cout<<"2\n";
   p.buildExpression();
+  cout<<"3\n";
   ASSERT_TRUE(p.getExpressionTree());
+  cout<<"4\n";
   ASSERT_TRUE(p.getExpressionTree()->evaluate());
 }
 

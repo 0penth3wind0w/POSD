@@ -23,10 +23,15 @@ struct.o: struct.cpp struct.h
 list.o: list.cpp list.h
 		g++ -std=gnu++0x -c list.cpp
 
-utMigrate: main.o term.o struct.o list.o
-		g++ -o utMigrate main.o term.o struct.o list.o -lgtest -lpthread
-main.o: main.cpp utTerm.h utAtom.h utNumber.h utVariable.h utStruct.h utList.h
-		g++ -std=gnu++0x -c main.cpp
+utMigrate: mainMigrate.o term.o struct.o list.o
+		g++ -o utMigrate mainMigrate.o term.o struct.o list.o -lgtest -lpthread
+mainMigrate.o: mainMigrate.cpp utTerm.h utAtom.h utNumber.h utVariable.h utStruct.h utList.h
+		g++ -std=gnu++0x -c mainMigrate.cpp
+
+utFunctions: mainFunctions.o term.o struct.o list.o
+		g++ -o utFunctions mainFunctions.o term.o struct.o list.o -lgtest -lpthread
+mainFunctions.o: mainFunctions.cpp utScanner.h utParser.h
+		g++ -std=gnu++0x -c mainFunctions.cpp
 
 
 utTerm: mainTerm.o term.o
@@ -106,9 +111,9 @@ utIterator: mainIterator.o list.o struct.o  term.o
 mainIterator.o: mainIterator.cpp utIterator.h
 	g++ -std=gnu++0x -c mainIterator.cpp
 
-utExp: mainExp.o term.o struct.o list.o
+utExp: mainExp.o term.o struct.o list.o atom.h struct.h variable.h parser.h scanner.h
 	g++ -o utExp mainExp.o term.o struct.o list.o -lgtest -lpthread
-mainExp.o: mainExp.cpp utExp.h
+mainExp.o: mainExp.cpp utExp.h atom.h struct.h variable.h parser.h scanner.h
 	g++ -std=gnu++0x -c mainExp.cpp
 
 clean:	
