@@ -8,7 +8,9 @@
 using std::string;
 using namespace std;
 
-template <class T>
+class Variable;
+class Struct;
+// template <class T>
 class Iterator;
 
 class Term
@@ -16,20 +18,26 @@ class Term
 public:
   virtual string symbol() const { return _symbol; }
   virtual string value() const { return symbol(); }
-  virtual bool match(Term &a)
-  {
-    return _symbol == a.symbol();
+  virtual bool match(Term &a);
+  // {
+  //   return _symbol == a.symbol();
+  // }
+  virtual int size() { return 0; }
+  virtual Term count(int &i) { return 0; }
+  virtual Iterator * createIterator();
+  // virtual Iterator <Term*> * createIterator();
+  virtual Struct* getStruct() {
+    return nullptr;
   }
-  
+  virtual Variable* getVariable() {
+    return nullptr;
+  }
+
   bool isAtom = false;
   bool isVar = false;
   bool isNum = false;
   bool isStruct = false;
   bool isList = false;
-
-  virtual int size() { return 0; }
-  virtual Term count(int &i) { return 0; }
-  virtual Iterator <Term*> * createIterator();
 
 protected:
   Term() : _symbol("") {}

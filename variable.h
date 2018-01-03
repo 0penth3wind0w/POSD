@@ -67,6 +67,10 @@ public:
       return false;
     }
   }
+  Variable* getVariable() {
+    return this;
+  }
+
   Term *_inst;
 
 private:

@@ -23,6 +23,12 @@ struct.o: struct.cpp struct.h
 list.o: list.cpp list.h
 		g++ -std=gnu++0x -c list.cpp
 
+utMigrate: main.o term.o struct.o list.o
+		g++ -o utMigrate main.o term.o struct.o list.o -lgtest -lpthread
+main.o: main.cpp utTerm.h utAtom.h utNumber.h utVariable.h utStruct.h utList.h
+		g++ -std=gnu++0x -c main.cpp
+
+
 utTerm: mainTerm.o term.o
 ifeq (${OS}, Windows_NT)
 		g++ -o utTerm mainTerm.o term.o -lgtest
