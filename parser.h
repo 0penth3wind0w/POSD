@@ -1,16 +1,18 @@
 #ifndef PARSER_H
 #define PARSER_H
 #include <string>
+#include <stack>
 using std::string;
 
 #include "atom.h"
 #include "variable.h"
-#include "global.h"
-#include "scanner.h"
 #include "struct.h"
 #include "list.h"
+
+#include "global.h"
+#include "scanner.h"
 #include "exp.h"
-#include <stack>
+
 
 using std::stack;
 

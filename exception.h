@@ -1,4 +1,5 @@
-
+#ifndef EXCEPTION_H
+#define EXCEPTION_H
 /**
  * 
  * Here are some examples for exception handling,
@@ -82,3 +83,4 @@ TEST(Shell, exception_UnbalancedOperator2) {
     ASSERT_EQ("Unbalanced operator", msg);
   }
 }
+#endif
