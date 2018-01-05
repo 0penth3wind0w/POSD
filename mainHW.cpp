@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
-#include "utStruct.h"
+#include "expression.h"
+#include "exception.h"
+
 
 int main( int argc , char **argv )
 {

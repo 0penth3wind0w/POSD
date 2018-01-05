@@ -1,3 +1,9 @@
+#ifndef EXCEPTION_H
+#define EXCEPTION_H
+
+#include "parser.h"
+#include "scanner.h"
+#include "exp.h"
 
 /**
  * 
@@ -17,7 +23,7 @@ TEST(Shell, exception_OnlyVariable) {
   }
 }
 
-TEST_F(Shell, exceptionMissingPeriodToken) {
+TEST(Shell, exceptionMissingPeriodToken) {
   Scanner s("X=1");
   Parser p(s);
   try {
@@ -82,3 +88,4 @@ TEST(Shell, exception_UnbalancedOperator2) {
     ASSERT_EQ("Unbalanced operator", msg);
   }
 }
+#endif

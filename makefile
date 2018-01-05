@@ -1,124 +1,74 @@
-#INC_DIR = include
+all: clean hw8
 
-all: hw7
+atom.o: atom.cpp atom.h variable.h
+		g++ -std=c++11 -c atom.cpp
+list.o:list.cpp list.h
+		g++ -std=c++11 -c list.cpp
+struct.o:struct.cpp struct.h
+		g++ -std=c++11 -c struct.cpp
+shell.o:shell.cpp parser.h scanner.h
+		g++ -std=c++11 -c shell.cpp
 
-run: clean utIterator
-	./utIterator
+utAtom: mainAtom.o list.o atom.o struct.o
+		g++ -o utAtom mainAtom.o atom.o list.o struct.o  -lgtest -lpthread
+mainAtom.o: mainAtom.cpp utList.h utAtom.h atom.h utStruct.h struct.h
+		g++ -std=c++11 -c mainAtom.cpp
+utVariable: mainVariable.o atom.o struct.o
+		g++ -o utVariable mainVariable.o atom.o struct.o -lgtest -lpthread
+mainVariable.o: mainVariable.cpp utVariable.h variable.h
+		g++ -std=c++11 -c mainVariable.cpp
 
-hw7: mainIterator.o list.o struct.o  term.o
-ifeq (${OS}, Windows_NT)
-		g++ -o hw7 mainIterator.o list.o struct.o term.o -lgtest
-else
-		g++ -o hw7 mainIterator.o list.o struct.o term.o -lgtest -lpthread
-endif
+#exp: mainExp.o
+#	g++ -o exp mainExp.o -lgtest -lpthread
+#mainExp.o: mainExp.cpp exp.h global.h
+#	g++ -std=c++11 -c mainExp.cpp
 
-mainHw.o: mainHw.cpp utIterator.h term.h atom.h number.h variable.h struct.h list.h node.h iterator.h
-
-term.o: term.cpp term.h iterator.h
-		g++ -std=gnu++0x -c term.cpp
-
-struct.o: struct.cpp struct.h
-		g++ -std=gnu++0x -c struct.cpp
-
-list.o: list.cpp list.h
-		g++ -std=gnu++0x -c list.cpp
-
-utMigrate: mainMigrate.o term.o struct.o list.o
-		g++ -o utMigrate mainMigrate.o term.o struct.o list.o -lgtest -lpthread
-mainMigrate.o: mainMigrate.cpp utTerm.h utAtom.h utNumber.h utVariable.h utStruct.h utList.h
-		g++ -std=gnu++0x -c mainMigrate.cpp
-
-utFunctions: mainFunctions.o term.o struct.o list.o
-		g++ -o utFunctions mainFunctions.o term.o struct.o list.o -lgtest -lpthread
-mainFunctions.o: mainFunctions.cpp utScanner.h utParser.h
-		g++ -std=gnu++0x -c mainFunctions.cpp
-
-
-utTerm: mainTerm.o term.o
-ifeq (${OS}, Windows_NT)
-		g++ -o utTerm mainTerm.o term.o -lgtest
-else
-		g++ -o utTerm mainTerm.o term.o -lgtest -lpthread
-endif
-mainTerm.o: mainTerm.cpp utTerm.h
-		g++ -std=gnu++0x -c mainTerm.cpp
-
-utAtom: mainAtom.o term.o
-ifeq (${OS}, Windows_NT)
-		g++ -o utAtom mainAtom.o term.o -lgtest
-else
-		g++ -o utAtom mainAtom.o term.o -lgtest -lpthread
-endif
-mainAtom.o: mainAtom.cpp utAtom.h
-		g++ -std=gnu++0x -c mainAtom.cpp
-
-utVariable: mainVariable.o term.o struct.o
-ifeq (${OS}, Windows_NT)
-		g++ -o utVariable mainVariable.o term.o struct.o -lgtest
-else
-		g++ -o utVariable mainVariable.o term.o struct.o -lgtest -lpthread
-endif
-mainVariable.o: mainVariable.cpp utVariable.h
-		g++ -std=gnu++0x -c mainVariable.cpp
-
-utNumber: mainNumber.o
-ifeq (${OS}, Windows_NT)
-		g++ -o utNumber mainNumber.o -lgtest
-else
-		g++ -o utNumber mainNumber.o -lgtest -lpthread
-endif
-mainNumber.o: mainNumber.cpp utNumber.h
-		g++ -std=gnu++0x -c mainNumber.cpp
-
-utStruct: mainStruct.o term.o struct.o
-ifeq (${OS}, Windows_NT)
-		g++ -o utStruct mainStruct.o term.o struct.o -lgtest
-else
-		g++ -o utStruct mainStruct.o term.o struct.o -lgtest -lpthread
-endif
-mainStruct.o: mainStruct.cpp utStruct.h
-		g++ -std=gnu++0x -c mainStruct.cpp
-
-utList: mainList.o term.o struct.o list.o
-ifeq (${OS}, Windows_NT)
-		g++ -o utList mainList.o term.o struct.o list.o -lgtest
-else
-		g++ -o utList mainList.o term.o struct.o list.o -lgtest -lpthread
-endif
-mainList.o: mainList.cpp utList.h
-		g++ -std=gnu++0x -c mainList.cpp
-
-utScanner: mainScanner.o
-ifeq (${OS}, Windows_NT)
-	g++ -o utScanner mainScanner.o -lgtest
-else	
-	g++ -o utScanner mainScanner.o -lgtest -lpthread
-endif
-mainScanner.o: mainScanner.cpp utScanner.h
+utScanner: mainScanner.o atom.o list.o struct.o scanner.h utScanner.h utParser.h parser.h
+	g++ -o utScanner mainScanner.o atom.o list.o struct.o -lgtest -lpthread
+mainScanner.o: mainScanner.cpp utScanner.h scanner.h  atom.h struct.h variable.h  utParser.h parser.h utExp.h
 		g++ -std=c++11 -c mainScanner.cpp
-
-utParser: mainParser.o term.o struct.o list.o
-ifeq (${OS}, Windows_NT)
-	g++ -o utParser mainParser.o term.o struct.o list.o -lgtest
-else	
-	g++ -o utParser mainParser.o term.o struct.o list.o -lgtest -lpthread
-endif
-mainParser.o: mainParser.cpp term.h atom.h number.h variable.h struct.h scanner.h parser.h utParser.h
-		g++ -std=c++11 -c mainParser.cpp
-
-utIterator: mainIterator.o list.o struct.o  term.o
-	g++ -o utIterator mainIterator.o list.o struct.o term.o -lgtest -lpthread
+utIterator: mainIterator.o atom.o list.o struct.o iterator.h utIterator.h
+	g++ -o utIterator mainIterator.o atom.o list.o struct.o -lgtest -lpthread
 mainIterator.o: mainIterator.cpp utIterator.h
-	g++ -std=gnu++0x -c mainIterator.cpp
+	g++ -std=c++11 -c mainIterator.cpp
 
-utExp: mainExp.o term.o struct.o list.o atom.h struct.h variable.h parser.h scanner.h
-	g++ -o utExp mainExp.o term.o struct.o list.o -lgtest -lpthread
-mainExp.o: mainExp.cpp utExp.h atom.h struct.h variable.h parser.h scanner.h
-	g++ -std=gnu++0x -c mainExp.cpp
+#utTerm: mainTerm.o term.o struct.o var.o list.o
+#	g++ -o utTerm mainTerm.o term.o var.o struct.o list.o -lgtest -lpthread
+#mainTerm.o: mainTerm.cpp utTerm.h term.h var.h utStruct.h struct.h list.h utList.h
+#	g++ -std=c++11 -c mainTerm.cpp
+#term.o: term.h term.cpp
+#	g++ -std=c++11 -c term.cpp
+#struct.o: struct.h struct.cpp
+#	g++ -std=c++11 -c struct.cpp
+#var.o: var.h var.cpp
+#g++ -std=c++11 -c var.cpp
+#list.o: list.h list.cpp term.h var.h
+#	g++ -std=c++11 -c list.cpp
 
-clean:	
-ifeq (${OS}, Windows_NT)
-		del *.o *.exe
+utException: mainException.o atom.o struct.o list.o
+	g++ -o utException mainException.o atom.o struct.o list.o -lgtest -lpthread
+mainException.o: mainException.cpp exception.h
+	g++ -std=c++11 -c mainException.cpp
+
+utExpression: mainExpression.o atom.o struct.o list.o
+	g++ -o utExpression mainExpression.o atom.o struct.o list.o -lgtest -lpthread
+mainExpression.o: mainExpression.cpp expression.h
+	g++ -std=c++11 -c mainExpression.cpp
+
+hw8: mainHW.o atom.o struct.o list.o
+	g++ -o hw8 mainHW.o atom.o struct.o list.o -lgtest -lpthread
+mainHW.o: mainHW.cpp expression.h exception.h
+	g++ -std=c++11 -c mainHW.cpp
+
+
+Shell: shell.o atom.o struct.o list.o parser.h scanner.h exp.h variable.h utParser.h
+ifeq (${OS}, Windows_NT) 
+	g++ -o Shell shell.o atom.o struct.o list.o -lgtest
 else
-		rm -f *.o *.gch ut*[!.h] hw*
+	g++ -o Shell shell.o atom.o struct.o list.o -lgtest -lpthread
 endif
+
+clean:
+	rm -f *.o *.gch ut*[!.h] hw* Shell
+stat:
+	wc *.h *.cpp

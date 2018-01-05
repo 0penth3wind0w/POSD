@@ -15,24 +15,29 @@ public:
   void setInput(string in) {buffer = in;}
 
   int nextToken() {
-      if (skipLeadingWhiteSpace() >= buffer.length())
+      if (skipLeadingWhiteSpace() >= buffer.length()){
         return EOS;
+      }
       else if (isdigit(currentChar())) {
         _tokenValue = extractNumber();
         return NUMBER;
-      }  else if (islower(currentChar())) {
+      }
+      else if (islower(currentChar())) {
         string s = extractAtom();
         processToken<ATOM>(s);
         return ATOM;
-      } else if (isSpecialCh(currentChar())) {
+      }
+      else if (isSpecialCh(currentChar()) && position() < buffer.length() - 1) {
         string s = extractAtomSC();
         processToken<ATOMSC>(s);
         return ATOMSC;
-      } else if (isupper(currentChar()) || currentChar() == '_') {
+      }
+      else if (isupper(currentChar()) || currentChar() == '_') {
         string s = extractVar();
         processToken<VAR>(s);
         return VAR;
-      } else {
+      }
+      else {
         _tokenValue = NONE;
         return extractChar();
       }
@@ -60,7 +65,7 @@ public:
 
   string extractAtom() {
     int posBegin = position();
-    for (;isalnum(buffer[pos]); ++pos);
+    for (;isalnum(buffer[pos])|| buffer[pos] == '_'; ++pos);
     return buffer.substr(posBegin, pos-posBegin);
   }
 
@@ -79,6 +84,8 @@ public:
   char extractChar() {
     return buffer[pos++];
   }
+
+  string getContext() const { return buffer; }
 
 private:
   string buffer;
