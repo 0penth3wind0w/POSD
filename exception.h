@@ -1,5 +1,10 @@
 #ifndef EXCEPTION_H
 #define EXCEPTION_H
+
+#include "parser.h"
+#include "scanner.h"
+#include "exp.h"
+
 /**
  * 
  * Here are some examples for exception handling,
@@ -18,7 +23,7 @@ TEST(Shell, exception_OnlyVariable) {
   }
 }
 
-TEST_F(Shell, exceptionMissingPeriodToken) {
+TEST(Shell, exceptionMissingPeriodToken) {
   Scanner s("X=1");
   Parser p(s);
   try {

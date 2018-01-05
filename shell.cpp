@@ -4,35 +4,35 @@
 
 #include "scanner.h"
 #include "parser.h"
+#include "scanner.h"
 
-using std::string;
+using namespace std;
 
-int main(){
-    string input = "";
-    string context = "";
-
-    while(context != "halt."){
+int main(){    
+    while (true)
+    {
+        string context = "";
+        string input;
         do{
-            if (context == ""){
+            if (context == "")
                 cout << "?- ";
-            }
-            else{
+            else
                 cout << "|   ";
-            }
             getline(cin, input);
-            if (input != ""){
-                input.erase(remove_if(input.begin(), input.end(), isspace), input.end());
-            }
             context += input;
         } while (input == "" || context.back() != '.');
+        if (context == "halt."){
+            break;
+        }
+        
+        Parser *parser;
         parser = new Parser(Scanner(context));
         try{
-            cout << parser->buildExpression()->getResult() << endl;
+            cout << parser->buildExpression()->result() << endl;
         }
         catch (string &msg){
             cout << msg << endl;
         }
-        context = "";
+        return 0;
     }
-    return 0;
 }

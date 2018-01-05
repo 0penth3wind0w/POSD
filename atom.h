@@ -3,22 +3,39 @@
 
 #include <string>
 #include <sstream>
-#include "term.h"
 using std::string;
 
-class Atom : public Term
-{
+class Variable;
+class Struct;
+class Iterator;
+class Term {
 public:
-  Atom(string s) : Term(s) {}
-  bool isAtom = true;
-  bool match(Term &a)
-  {
-    if (a.isList)
-    {
-      return false;
-    }else{
-      return _symbol == a.symbol();
-    }
+  virtual string symbol() const {return _symbol;}
+  virtual string value() const {return symbol();}
+  virtual bool match(Term & a);
+  virtual Iterator * createIterator();
+  virtual Struct* getStruct() {
+    return nullptr;
+  }
+  virtual Variable* getVariable() {
+    return nullptr;
+  }
+protected:
+  Term (string s = ""):_symbol(s) {}
+  string _symbol;
+};
+
+class Atom : public Term{
+public:
+  Atom(string s):Term(s) {}
+};
+
+class Number : public Term{
+public:
+  Number(double db){
+      std::ostringstream strs;
+      strs << db;
+      _symbol = strs.str();
   }
 };
 
