@@ -1,5 +1,5 @@
 #include <iostream>
-#include <stream>
+#include <string>
 #include <algorithm>
 
 #include "scanner.h"
