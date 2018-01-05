@@ -44,9 +44,7 @@ private:
 
 class ConjExp : public Exp {
 public:
-  ConjExp(Exp *left, Exp *right) : _left(left), _right(right) {
-
-  }
+  ConjExp(Exp *left, Exp *right) : _left(left), _right(right) { }
 
   bool evaluate() {
     return (_left->evaluate() && _right->evaluate());

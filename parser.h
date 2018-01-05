@@ -22,11 +22,11 @@ public:
     int token = _scanner.nextToken();
     _currentToken = token;
     if(token == VAR){
-      for (int i = _startIndex; i < _varTable.size(); i++)
-        if (symtable[_scanner.tokenValue()].first == _varTable[i]->symbol())
-          return _varTable[i];
+      for (int i = _startIndex; i < _vars.size(); i++)
+        if (symtable[_scanner.tokenValue()].first == _vars[i]->symbol())
+          return _vars[i];
       Variable *variable = new Variable(symtable[_scanner.tokenValue()].first);
-      _varTable.push_back(variable);
+      _vars.push_back(variable);
       return variable;
     }else if(token == NUMBER){
       return new Number(_scanner.tokenValue());
@@ -90,13 +90,6 @@ public:
     return _terms;
   }
 
-  // void buildExpression(){
-  //   // createTerm();
-  //   disjunctionMatch();
-  //   restDisjunctionMatch();
-  //   if (createTerm() != nullptr || _currentToken != '.')
-  //     throw string("expected token.");
-  // }
   Exp *buildExpression()
   {
     if (_scanner.getContext().find(";.") != string::npos){
@@ -116,7 +109,7 @@ public:
 
   void restDisjunctionMatch() {
     if (_scanner.currentChar() == ';'){
-      _startIndex = _varTable.size();
+      _startIndex = _vars.size();
       createTerm();
       disjunctionMatch();
       Exp *right = _expStack.top();
@@ -180,11 +173,11 @@ private:
   }
 
   vector<Term *> _terms;
+  vector<Variable *> _vars;
   Scanner _scanner;
   int _currentToken;
   //MatchExp* _root;
   stack<Exp*> _expStack;
   int _startIndex;
-  vector<Variable *> _varTable;
 };
 #endif
