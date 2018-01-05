@@ -33,6 +33,6 @@ int main(){
         catch (string &msg){
             cout << msg << endl;
         }
-        return 0;
     }
+    return 0;
 }
