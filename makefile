@@ -1,3 +1,12 @@
+hw8: mainHW.o atom.o struct.o list.o
+ifeq (${OS}, Windows_NT)
+		g++ -o hw8 mainHW.o atom.o struct.o list.o -lgtest
+else
+		g++ -o hw8 mainHW.o atom.o struct.o list.o -lgtest -lpthread
+endif
+mainHW.o: mainHW.cpp expression.h exception.h
+	g++ -std=c++11 -c mainHW.cpp
+
 all: clean hw8
 
 atom.o: atom.cpp atom.h variable.h
@@ -54,12 +63,6 @@ utExpression: mainExpression.o atom.o struct.o list.o
 	g++ -o utExpression mainExpression.o atom.o struct.o list.o -lgtest -lpthread
 mainExpression.o: mainExpression.cpp expression.h
 	g++ -std=c++11 -c mainExpression.cpp
-
-hw8: mainHW.o atom.o struct.o list.o
-	g++ -o hw8 mainHW.o atom.o struct.o list.o -lgtest -lpthread
-mainHW.o: mainHW.cpp expression.h exception.h
-	g++ -std=c++11 -c mainHW.cpp
-
 
 Shell: shell.o atom.o struct.o list.o parser.h scanner.h exp.h variable.h utParser.h
 ifeq (${OS}, Windows_NT) 
